@@ -25,12 +25,26 @@
   p { font-size:12px; line-height:1.65; color:var(--muted); margin:0 0 10px; }
   .open { font-size:11px; letter-spacing:.06em; color:#333; opacity:0; transform:translateY(3px); transition:.25s; }
   .card:hover .open { opacity:1; transform:none; }
+  .about { display:grid; grid-template-columns:130px 1fr 210px; gap:42px; border-bottom:1px solid var(--line); padding:30px 0 32px; margin-bottom:4px; }
+  .about .label { font-size:10px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent); }
+  .about .copy p { font-size:13px; line-height:1.9; color:#4c483f; margin:0 0 10px; max-width:720px; }
+  .about .copy p:last-child { margin-bottom:0; }
+  .about .info { font-size:10px; line-height:2; letter-spacing:.14em; color:var(--muted); text-align:right; }
+  @media(max-width:820px){ .about { grid-template-columns:1fr; gap:16px; } .about .info { text-align:left; } }
   footer { margin-top:82px; border-top:1px solid var(--line); padding-top:20px; font-size:11px; color:var(--muted); letter-spacing:.08em; display:flex; justify-content:space-between; }
 </style></head><body><div class="wrap">
   <header>
     <div><div class="brand">Cloud99 / Portfolio</div><h1>Selected<br>Works 2026</h1></div>
     <div class="lead">网页、界面与视觉实验的选集。十个项目，包含品牌页、产品界面与移动端叙事。</div>
   </header>
+  <section class="about" id="about">
+    <div class="label">About</div>
+    <div class="copy">
+      <p>Cloud99 是一个独立设计与前端实践，关注品牌、界面与可交互的网页叙事。</p>
+      <p>作品涵盖品牌站、产品界面、移动端故事与字体实验。每个项目保留自己的视觉语言，再被收进同一面墙。</p>
+    </div>
+    <div class="info">BASED IN CHINA<br>10 PROJECTS / 2026</div>
+  </section>
   <div class="grid"><a class="card" href="dsh-backup/cheese-studio/index.html" target="_blank" rel="noopener">
       <div class="thumb"><img src="assets/previews/dsh-02.png" alt="酪坊 LAOFANG" loading="lazy"><span class="num">01</span></div>
       <div class="meta"><div class="tag">Brand Site</div><h3>酪坊 LAOFANG</h3><p>手工熟成奶酪品牌，暖奶油色编辑式排版与产品摄影。</p><span class="open">View project ↗</span></div>
