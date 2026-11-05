@@ -8,6 +8,8 @@
 - `tempo-wrapped/` — Tempo 2026 年度报告（移动端三屏叙事）
 - `trip-themes/` — 一起旅行（重庆 / 大理 / 冰岛三套主题）
 - `zhezhi-checkout/` — 折纸 ORIGAMI 品牌结账页
+- `kiln-foundry/` — kiln® KG Sans 字体铸造厂官网
+- `poster/` — THE WALL 作品墙海报（1080×2340）
 
 ## 本地预览
 
