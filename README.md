@@ -27,7 +27,7 @@ Cloud99 是一个独立设计与前端实践，关注品牌、界面与可交互
 </tr>
 <tr>
 <td width="50%"><a href="https://cl0ud-99.github.io/cloud99-portfolio/tempo-wrapped/"><img src="assets/previews/tempo.png" alt="Tempo · 2026 年度报告"></a><br><b>Tempo · 2026 年度报告</b><br>Mobile Story</td>
-<td width="50%"><a href="https://cl0ud-99.github.io/cloud99-portfolio/trip-themes/"><img src="assets/previews/trip.png" alt="一起旅行 · 三套题材"></a><br><b>一起旅行 · 三套题材</b><br>Travel App</td>
+<td width="50%"><a href="https://cl0ud-99.github.io/cloud99-portfolio/trip-themes/"><img src="assets/previews/trip-home.png" alt="一起旅行 · 三套题材"></a><br><b>一起旅行 · 三套题材</b><br>Travel App</td>
 </tr>
 <tr>
 <td width="50%"><a href="https://cl0ud-99.github.io/cloud99-portfolio/zhezhi-checkout/"><img src="assets/previews/zhezhi.png" alt="折纸 ORIGAMI · 结账"></a><br><b>折纸 ORIGAMI · 结账</b><br>E-commerce</td>
