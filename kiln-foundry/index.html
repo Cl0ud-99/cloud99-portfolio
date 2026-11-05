@@ -1,0 +1,837 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kiln Type · KG Sans</title>
+<style>
+  /* 变量字体：必须用 @font-face 声明轴范围，否则 font-variation-settings 不生效 */
+  @font-face{
+    font-family:"KV";
+    src:local("Bahnschrift"), local("Bahnschrift Regular");
+    font-weight:100 900;
+    font-stretch:50% 100%;
+    font-display:block;
+  }
+
+  :root{
+    --paper:#F2EEE4;
+    --ink:#16181A;
+    --brand:#E9633A;
+    --dark:#1A211D;
+    --pale:#C9D3EA;
+    --clay:#E4A882;
+    --line:rgba(22,24,26,.16);
+    --line-d:rgba(242,238,228,.22);
+    --muted:rgba(22,24,26,.56);
+    --muted-d:rgba(242,238,228,.62);
+    --sans:"KV","Bahnschrift","Segoe UI",system-ui,sans-serif;
+    --mono:"KV","Bahnschrift","Consolas",monospace;
+    --pad:40px;
+  }
+
+  *{box-sizing:border-box;-webkit-font-smoothing:antialiased}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--sans); font-size:15px; line-height:1.5;
+    font-variation-settings:'wght' 400,'wdth' 100;
+  }
+  a{color:inherit; text-decoration:none}
+  button{font:inherit; color:inherit; background:none; border:0; cursor:pointer; font-family:inherit}
+
+  /* 顶部滚动进度 */
+  .prog{position:fixed; top:0; left:0; height:3px; width:0; background:var(--brand); z-index:60}
+
+  /* ---------- 头部 ---------- */
+  .hdr{
+    position:sticky; top:0; z-index:50; height:70px;
+    display:flex; align-items:center; gap:40px;
+    padding:0 var(--pad); background:var(--paper);
+    border-bottom:1px solid var(--line);
+  }
+  .logo{
+    font-size:23px; letter-spacing:-.015em;
+    font-variation-settings:'wght' 700,'wdth' 92;
+  }
+  .logo sup{font-size:10px; vertical-align:super; margin-left:1px}
+  .hdr nav{display:flex; gap:34px; margin:0 auto; font-size:13.5px; color:var(--muted)}
+  .hdr nav a:hover{color:var(--ink)}
+  .cart{
+    display:flex; align-items:center; gap:9px; font-size:13.5px;
+    padding:7px 11px; border:1px solid var(--line); border-radius:2px;
+  }
+  .cart b{
+    min-width:18px; height:18px; display:grid; place-items:center;
+    background:var(--ink); color:var(--paper); font-size:11px; font-weight:400;
+    font-variation-settings:'wght' 500;
+  }
+
+  /* ---------- 首屏 ---------- */
+  .hero{
+    background:var(--brand); color:var(--ink);
+    padding:26px var(--pad) 0;
+    display:flex; flex-direction:column;
+    min-height:calc(100vh - 70px - 54px);
+  }
+  .hero-meta{display:flex; align-items:flex-start; justify-content:space-between; gap:40px}
+  .hero-meta h2{
+    margin:0; font-size:26px; letter-spacing:-.01em;
+    font-variation-settings:'wght' 500,'wdth' 96;
+  }
+  .hero-meta h2 span{
+    display:inline-block; margin-left:14px; font-size:11px; letter-spacing:.06em;
+    color:rgba(22,24,26,.8); font-variation-settings:'wght' 400,'wdth' 100;
+  }
+  .hero-meta p{
+    margin:0; text-align:right; font-size:13px; line-height:1.45;
+    color:rgba(22,24,26,.82);
+  }
+
+  /* 可编辑的主标题 = 试字输出 */
+  .spec{
+    margin:28px 0 auto; padding:0 0 30px;
+    font-size:205px; line-height:.86; letter-spacing:-.032em;
+    font-variation-settings:'wght' 700,'wdth' 100;
+    outline:none; cursor:text; word-break:break-word;
+    text-align:left;
+  }
+  .spec:focus{outline:none}
+  .spec:empty::before{content:"Type something…"; opacity:.32}
+
+  /* ---------- 试字面板 ---------- */
+  .tester{border-top:1px solid rgba(22,24,26,.35); padding-top:0}
+  .t-row{display:flex; align-items:baseline; justify-content:space-between; padding:9px 0 10px}
+  .t-lab{font-size:12.5px; color:rgba(22,24,26,.72)}
+  .fit{
+    font-size:12px; border-bottom:1px solid rgba(22,24,26,.45);
+    padding-bottom:1px; display:inline-flex; align-items:center; gap:6px;
+  }
+  .fit.on::after{content:"✓"; font-size:11px}
+
+  .sliders{display:grid; grid-template-columns:1fr 1fr 1fr 190px; gap:34px; align-items:end; padding-bottom:14px}
+  .sl{display:grid; gap:5px}
+  .sl-top{display:flex; justify-content:space-between; align-items:baseline}
+  .sl-top b{font-size:12.5px; font-weight:400; font-variation-settings:'wght' 450}
+  .sl-top i{font-style:normal; font-size:12.5px; font-variant-numeric:tabular-nums; color:rgba(22,24,26,.78)}
+  .sl input{
+    -webkit-appearance:none; appearance:none; width:100%; height:14px;
+    background:transparent; margin:0; display:block; cursor:pointer;
+  }
+  .sl input::-webkit-slider-runnable-track{height:1px; background:rgba(22,24,26,.42)}
+  .sl input::-webkit-slider-thumb{
+    -webkit-appearance:none; width:8px; height:16px; margin-top:-7.5px;
+    background:var(--ink); border:0; border-radius:1px;
+  }
+  .sl input::-moz-range-track{height:1px; background:rgba(22,24,26,.42)}
+  .sl input::-moz-range-thumb{width:8px; height:16px; background:var(--ink); border:0; border-radius:1px}
+
+  .dial{display:flex; align-items:center; justify-content:flex-end; gap:12px; padding-bottom:16px}
+  .dial svg{display:block}
+  .morebtn{display:inline-flex; align-items:center; gap:12px; font-size:12.5px; white-space:nowrap}
+  .morebtn .pm{font-size:15px; line-height:1; width:10px; text-align:center}
+
+  .more{
+    display:none; align-items:center; gap:28px;
+    padding:11px 0 12px; border-top:1px solid rgba(22,24,26,.2);
+  }
+  .more.open{display:flex}
+  .more .lab{font-size:12.5px; color:rgba(22,24,26,.72); margin-right:12px}
+  .pbtn{
+    font-size:12px; padding:6px 11px; border:1px solid rgba(22,24,26,.4);
+    border-radius:2px; margin-right:7px;
+  }
+  .pbtn.on{background:var(--ink); color:var(--paper); border-color:var(--ink)}
+  .more .right{margin-left:auto; display:flex; align-items:center; gap:20px}
+  .sel{
+    -webkit-appearance:none; appearance:none; font-family:inherit; font-size:12px;
+    background:transparent; border:1px solid rgba(22,24,26,.4); border-radius:2px;
+    padding:6px 26px 6px 10px; cursor:pointer;
+    background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);
+    background-position:calc(100% - 12px) 12px, calc(100% - 8px) 12px;
+    background-size:4px 4px, 4px 4px; background-repeat:no-repeat;
+  }
+  .reset{display:inline-flex; align-items:center; gap:7px; font-size:12.5px; color:rgba(22,24,26,.72)}
+
+  .t-foot{
+    display:flex; align-items:center; justify-content:space-between; gap:30px;
+    padding:10px 0 14px; border-top:1px solid rgba(22,24,26,.35);
+  }
+  .t-foot .fam{font-size:12.5px; color:rgba(22,24,26,.72)}
+  .buy{
+    display:inline-flex; align-items:center; gap:56px;
+    background:var(--ink); color:var(--paper);
+    padding:13px 18px; border-radius:2px; font-size:13px;
+  }
+  .buy span{color:rgba(242,238,228,.72); display:inline-flex; align-items:center; gap:8px}
+
+  /* ---------- 章节导航 ---------- */
+  .seclist{
+    position:sticky; top:70px; z-index:40;
+    display:grid; grid-template-columns:repeat(4,1fr) 40px;
+    gap:20px; padding:14px var(--pad) 15px;
+    background:var(--paper); border-bottom:1px solid var(--line);
+  }
+  .seclist a{display:flex; gap:12px; font-size:12.5px; color:var(--muted)}
+  .seclist a b{font-weight:400; font-variation-settings:'wght' 500; color:var(--ink)}
+  .seclist a:hover{color:var(--ink)}
+  .seclist .arw{text-align:right}
+
+  /* ---------- 通用区块 ---------- */
+  .sec{padding:56px var(--pad) 64px}
+  .sec-hd{display:grid; grid-template-columns:1fr 400px; gap:40px; align-items:start}
+  .sec-hd h2{
+    margin:0; font-size:44px; line-height:1.08; letter-spacing:-.022em;
+    font-variation-settings:'wght' 400,'wdth' 100;
+  }
+  .sec-hd .side{font-size:13px; line-height:1.6; color:var(--muted); padding-top:6px}
+  .sec-hd .side p{margin:0 0 10px}
+  .sec-hd .side .axes{font-size:11.5px; letter-spacing:.03em; color:rgba(22,24,26,.62)}
+
+  /* ---------- 字重表 ---------- */
+  .weights{margin-top:34px; border-top:1px solid var(--line)}
+  .wrow{
+    display:grid; grid-template-columns:110px 60px 1fr; gap:20px; align-items:center;
+    padding:14px 0 15px; border-bottom:1px solid var(--line);
+  }
+  .wrow .nm{font-size:12.5px; color:var(--muted)}
+  .wrow .vl{font-size:12.5px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .wrow .sp{font-size:38px; line-height:1.1; letter-spacing:-.02em; white-space:nowrap; overflow:hidden}
+  .wnote{display:flex; justify-content:flex-end; padding:12px 0 0; font-size:11.5px; color:var(--muted)}
+
+  /* ---------- 字宽演示 ---------- */
+  .width-demo{background:var(--pale); padding:56px var(--pad) 34px; overflow:hidden}
+  .width-demo .big{
+    font-size:clamp(90px,17vw,240px); line-height:.86; letter-spacing:-.03em;
+    text-align:center; white-space:nowrap;
+    font-variation-settings:'wght' 700,'wdth' 100;
+  }
+  .wd-scale{
+    display:flex; align-items:center; gap:18px; margin-top:26px;
+    font-size:11.5px; color:rgba(22,24,26,.7);
+  }
+  .wd-scale .ln{flex:1; position:relative; height:16px; display:flex; align-items:center}
+  .wd-scale .ln::before{content:""; position:absolute; left:0; right:0; height:1px; background:rgba(22,24,26,.3)}
+  .wd-scale input{
+    -webkit-appearance:none; appearance:none; width:100%; height:16px; background:transparent; margin:0; cursor:pointer; position:relative;
+  }
+  .wd-scale input::-webkit-slider-runnable-track{height:1px; background:transparent}
+  .wd-scale input::-webkit-slider-thumb{
+    -webkit-appearance:none; width:8px; height:16px; margin-top:-7.5px; background:var(--ink); border:0; border-radius:1px;
+  }
+  .wd-scale input::-moz-range-thumb{width:8px; height:16px; background:var(--ink); border:0; border-radius:1px}
+
+  /* ---------- 字符集 ---------- */
+  .glyphs{background:var(--dark); color:var(--paper); padding:56px var(--pad) 54px}
+  .glyphs .sec-hd .side{color:var(--muted-d)}
+  .tabs{display:flex; gap:26px; margin-top:34px; border-bottom:1px solid var(--line-d); font-size:12.5px}
+  .tabs button{padding:0 0 11px; color:var(--muted-d); position:relative}
+  .tabs button.on{color:var(--paper)}
+  .tabs button.on::after{content:""; position:absolute; left:0; right:0; bottom:-1px; height:2px; background:var(--brand)}
+  .gwrap{display:grid; grid-template-columns:1fr 420px; gap:56px; margin-top:26px; align-items:start}
+  .ggrid{display:grid; grid-template-columns:repeat(8,1fr); border-top:1px solid var(--line-d); border-left:1px solid var(--line-d)}
+  .gcell{
+    aspect-ratio:1/1; display:grid; place-items:center;
+    border-right:1px solid var(--line-d); border-bottom:1px solid var(--line-d);
+    font-size:23px; font-variation-settings:'wght' 400,'wdth' 100;
+    cursor:pointer; transition:background .12s;
+  }
+  .gcell:hover{background:rgba(242,238,228,.08)}
+  .gcell.on{background:var(--brand); color:var(--ink)}
+  .gbig{
+    display:grid; place-items:center; min-height:420px;
+    font-size:300px; line-height:1; letter-spacing:-.03em;
+    font-variation-settings:'wght' 400,'wdth' 100;
+  }
+  .gmeta{display:flex; justify-content:space-between; border-top:1px solid var(--line-d); padding-top:11px; font-size:11.5px; color:var(--muted-d)}
+
+  /* ---------- 使用案例 ---------- */
+  .cases{display:grid; grid-template-columns:1fr 1fr; gap:34px; margin-top:36px}
+  .case{display:grid; gap:0}
+  .case .art{aspect-ratio:1/1.02; padding:34px; display:flex; flex-direction:column; position:relative; overflow:hidden}
+  .case:nth-child(1) .art{background:var(--pale)}
+  .case:nth-child(2) .art{background:var(--clay)}
+  .case .top{display:flex; justify-content:space-between; font-size:11px; letter-spacing:.09em; text-transform:uppercase}
+  .case .top span:last-child{text-align:right; line-height:1.5}
+  .case h3{margin:38px 0 auto; font-size:78px; line-height:.94; letter-spacing:-.03em}
+  .case:nth-child(1) h3{font-variation-settings:'wght' 350,'wdth' 96}
+  .case:nth-child(2) h3{font-variation-settings:'wght' 700,'wdth' 92}
+  .case .bot{display:flex; justify-content:space-between; align-items:flex-end; margin-top:auto; font-size:11.5px; line-height:1.5}
+  .case .num{font-size:40px; line-height:1; font-variation-settings:'wght' 500,'wdth' 90}
+  .case .cap{display:flex; justify-content:space-between; padding-top:11px; font-size:11.5px; color:var(--muted); border-top:1px solid var(--line); margin-top:0}
+  .arrow-path{flex:1; height:48px; max-width:210px; align-self:flex-end; margin:0 14px 4px}
+
+  /* ---------- 授权 CTA ---------- */
+  .cta{background:var(--brand); padding:74px var(--pad) 78px}
+  .cta-in{display:grid; grid-template-columns:1fr 380px; gap:60px; align-items:end}
+  .cta h2{margin:0 0 22px; font-size:clamp(56px,7vw,92px); line-height:.94; letter-spacing:-.03em; font-variation-settings:'wght' 500,'wdth' 96}
+  .cta p{margin:0; font-size:14px; line-height:1.55; color:rgba(22,24,26,.8)}
+  .cta .r .from{font-size:12.5px; color:rgba(22,24,26,.7); margin-bottom:2px}
+  .cta .r .price{font-size:62px; line-height:1; letter-spacing:-.03em; font-variation-settings:'wght' 500,'wdth' 96}
+  .cta .r .price em{font-style:normal; font-size:15px; margin-left:6px; letter-spacing:0}
+  .cta .r button{
+    margin-top:20px; width:100%; display:flex; align-items:center; justify-content:space-between;
+    background:var(--ink); color:var(--paper); padding:15px 18px; font-size:13.5px; border-radius:2px;
+  }
+  .cta .r .fine{margin-top:11px; font-size:11.5px; color:rgba(22,24,26,.8)}
+
+  /* ---------- 页脚 ---------- */
+  .foot{
+    display:grid; grid-template-columns:1fr 1fr auto; gap:40px; align-items:start;
+    padding:44px var(--pad) 56px; border-top:1px solid var(--line);
+  }
+  .foot .logo{font-size:20px}
+  .foot .mid{font-size:14px; color:var(--muted)}
+  .foot .rt{text-align:right; font-size:12px; line-height:1.7; color:var(--muted)}
+  .foot .rt a{border-bottom:1px solid var(--line); padding-bottom:1px; display:inline-block; margin-top:9px; color:var(--ink)}
+
+  /* ---------- 授权弹窗 ---------- */
+  .ov{
+    position:fixed; inset:0; z-index:80; display:none;
+    background:rgba(30,28,24,.42); backdrop-filter:blur(7px);
+    padding:60px 24px; overflow:auto;
+  }
+  .ov.open{display:block}
+  .modal{
+    width:780px; max-width:100%; margin:0 auto; background:var(--paper);
+    border:1px solid var(--line); box-shadow:0 30px 80px rgba(20,18,14,.28);
+    display:grid; grid-template-rows:auto 1fr auto;
+  }
+  .m-top{display:flex; align-items:center; justify-content:space-between; padding:16px 20px; border-bottom:1px solid var(--line); font-size:12px; color:var(--muted)}
+  .m-top .x{font-size:18px; line-height:1; padding:0 2px}
+  .m-body{display:grid; grid-template-columns:350px 1fr}
+  .m-left{background:var(--brand); padding:26px 26px 22px; display:flex; flex-direction:column}
+  .m-left .kick{font-size:11px; letter-spacing:.08em; color:rgba(22,24,26,.66); margin-bottom:14px}
+  .m-left h3{margin:0; font-size:56px; line-height:.88; letter-spacing:-.03em; font-variation-settings:'wght' 700,'wdth' 92}
+  .m-left h3 sup{font-size:13px; vertical-align:super}
+  .m-left .desc{margin:16px 0 0; font-size:12px; line-height:1.55; color:rgba(22,24,26,.78)}
+  .m-left .aa{font-size:76px; line-height:1; margin:18px 0 22px; letter-spacing:-.02em; font-variation-settings:'wght' 500,'wdth' 100}
+  .m-left .inc{border-top:1px solid rgba(22,24,26,.28); padding-top:12px; margin-top:auto; font-size:11.5px; line-height:1.75; color:rgba(22,24,26,.8)}
+  .m-left .inc b{display:block; font-weight:400; color:var(--ink); margin-bottom:4px; font-variation-settings:'wght' 500}
+
+  .m-right{padding:26px 30px 22px}
+  .m-right h4{margin:0 0 6px; font-size:22px; letter-spacing:-.015em; font-variation-settings:'wght' 450,'wdth' 100}
+  .m-right .sub{margin:0 0 18px; font-size:12px; color:var(--muted)}
+  .lic{border-top:1px solid var(--line); padding:13px 0 14px; border-bottom:1px solid var(--line)}
+  .lic-row{display:grid; grid-template-columns:20px 1fr auto; gap:11px; align-items:start; cursor:pointer}
+  .lic-row .bx{
+    width:15px; height:15px; border:1px solid rgba(22,24,26,.5); margin-top:2px;
+    display:grid; place-items:center; font-size:10px; color:var(--paper);
+  }
+  .lic.on .bx{background:var(--ink); border-color:var(--ink)}
+  .lic-row .nm{display:block; font-size:13.5px}
+  .lic-row .ds{display:block; font-size:11.5px; color:var(--muted); margin-top:2px}
+  .lic-row .pr{font-size:13.5px; font-variant-numeric:tabular-nums}
+  .lic-users{display:none; align-items:center; gap:14px; margin:11px 0 0 31px; font-size:11.5px; color:var(--muted)}
+  .lic.on .lic-users{display:flex}
+  .lic-users select{
+    -webkit-appearance:none; appearance:none; font-family:inherit; font-size:11.5px;
+    background:transparent; border:1px solid var(--line); padding:5px 24px 5px 9px; border-radius:2px;
+    background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);
+    background-position:calc(100% - 11px) 10px, calc(100% - 7px) 10px;
+    background-size:4px 4px,4px 4px; background-repeat:no-repeat;
+  }
+  .acc{display:flex; justify-content:space-between; align-items:center; gap:20px; padding:14px 0; border-bottom:1px solid var(--line); font-size:12.5px; cursor:pointer}
+  .acc-body{display:none; font-size:11.5px; line-height:1.7; color:var(--muted); padding:0 0 14px; border-bottom:1px solid var(--line)}
+  .acc-body.open{display:block}
+  .custom{display:block; margin-top:14px; font-size:12px; border-bottom:1px solid var(--line); padding-bottom:1px; width:max-content}
+
+  .m-foot{display:flex; align-items:center; justify-content:space-between; gap:20px; padding:15px 20px; border-top:1px solid var(--line)}
+  .m-foot .sl{font-size:11.5px; color:var(--muted)}
+  .m-foot .sv{display:flex; align-items:baseline; gap:6px}
+  .m-foot .sv b{font-size:26px; font-weight:400; font-variation-settings:'wght' 500; font-variant-numeric:tabular-nums}
+  .m-foot .sv span{font-size:10.5px; color:var(--muted)}
+  .m-foot button{background:var(--ink); color:var(--paper); padding:13px 20px; font-size:13px; border-radius:2px}
+
+  /* ---------- 响应式 ---------- */
+  @media (max-width: 900px){
+    :root{--pad:20px}
+    .hdr{height:60px; gap:20px}
+    .hdr nav{display:none}
+    .seclist{top:60px; grid-template-columns:repeat(4,1fr); gap:8px; padding:11px var(--pad) 12px}
+    .seclist a{gap:7px; font-size:11px}
+    .seclist .arw{display:none}
+    .hero{min-height:auto; padding-top:20px}
+    .hero-meta{flex-direction:column; gap:14px}
+    .hero-meta p{text-align:left}
+    .spec{font-size:64px; padding:30px 0 26px; line-height:.94}
+    .sliders{grid-template-columns:1fr 1fr 1fr; gap:14px}
+    .dial{justify-content:space-between; padding:0 0 14px}
+    .more{flex-wrap:wrap; gap:14px}
+    .more .right{margin-left:0; width:100%; justify-content:space-between}
+    .t-foot{flex-direction:column; align-items:stretch; gap:12px}
+    .buy{justify-content:space-between; gap:20px}
+    .sec{padding:40px var(--pad) 46px}
+    .sec-hd{grid-template-columns:1fr; gap:16px}
+    .sec-hd h2{font-size:32px}
+    .wrow{grid-template-columns:78px 44px 1fr; gap:12px; padding:11px 0 12px}
+    .wrow .sp{font-size:21px}
+    .gwrap{grid-template-columns:1fr; gap:24px}
+    .gbig{min-height:200px; font-size:170px}
+    .gcell{font-size:16px}
+    .cases{grid-template-columns:1fr; gap:24px}
+    .case h3{font-size:44px}
+    .cta{padding:48px var(--pad) 52px}
+    .cta-in{grid-template-columns:1fr; gap:32px}
+    .foot{grid-template-columns:1fr; gap:22px}
+    .foot .rt{text-align:left}
+    .m-body{grid-template-columns:1fr}
+    .m-left{padding:22px}
+    .m-left h3{font-size:42px}
+    .m-left .aa{font-size:56px; margin:12px 0 16px}
+    .m-right{padding:22px}
+    .ov{padding:24px 14px}
+    .m-foot{position:sticky; bottom:0; background:var(--paper)}
+  }
+  @media (max-width: 420px){
+    .spec{font-size:52px}
+    .sliders{grid-template-columns:1fr 1fr 1fr; gap:10px}
+    .sl-top b{font-size:11px}
+    .sl-top i{font-size:11px}
+  }
+</style>
+</head>
+<body>
+
+<div class="prog" id="prog"></div>
+
+<header class="hdr">
+  <a class="logo" href="#">kiln<sup>®</sup></a>
+  <nav>
+    <a href="#styles">The typeface</a>
+    <a href="#foundry">The foundry</a>
+    <a href="#licensing">Licensing</a>
+  </nav>
+  <button class="cart">Cart <b id="cartN">0</b></button>
+</header>
+
+<!-- ================= 首屏 ================= -->
+<section class="hero">
+  <div class="hero-meta">
+    <h2>KG Sans <span>№ 01 / Variable sans</span></h2>
+    <p>A working sans.<br>Six weights, any width.</p>
+  </div>
+
+  <h1 class="spec" id="spec" contenteditable="true" spellcheck="false">Take up<br>space.</h1>
+
+  <div class="tester">
+    <div class="t-row">
+      <span class="t-lab">Type your own words.</span>
+      <button class="fit" id="fit">Fit text</button>
+    </div>
+
+    <div class="sliders">
+      <label class="sl">
+        <span class="sl-top"><b>Size</b><i id="vSize">205 px</i></span>
+        <input type="range" id="rSize" min="48" max="280" value="205" step="1">
+      </label>
+      <label class="sl">
+        <span class="sl-top"><b>Weight</b><i id="vWeight">700</i></span>
+        <input type="range" id="rWeight" min="300" max="700" value="700" step="10">
+      </label>
+      <label class="sl">
+        <span class="sl-top"><b>Width</b><i id="vWidth">100%</i></span>
+        <input type="range" id="rWidth" min="75" max="100" value="100" step="1">
+      </label>
+
+      <div class="dial">
+        <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true">
+          <circle cx="13" cy="13" r="11.2" fill="none" stroke="rgba(22,24,26,.55)" stroke-width="1.2"/>
+          <path d="M13 4.5a8.5 8.5 0 0 1 0 17z" fill="rgba(22,24,26,.85)"/>
+        </svg>
+        <button class="morebtn" id="moreBtn"><span id="moreLab">More controls</span><span class="pm" id="morePm">+</span></button>
+      </div>
+    </div>
+
+    <div class="more" id="more">
+      <span class="lab">Presets</span>
+      <div>
+        <button class="pbtn" data-preset="poster">Poster</button>
+        <button class="pbtn" data-preset="editorial">Editorial</button>
+        <button class="pbtn" data-preset="compact">Compact</button>
+      </div>
+      <div class="right">
+        <label class="lab" style="margin:0">Alignment
+          <select class="sel" id="align" style="margin-left:12px">
+            <option value="left">Left</option>
+            <option value="center">Center</option>
+            <option value="right">Right</option>
+          </select>
+        </label>
+        <button class="reset" id="reset">Reset settings
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="t-foot">
+      <span class="fam">6 weights. One variable family.</span>
+      <button class="buy" id="buy">Get KG Sans <span>from $98 <svg width="15" height="10" viewBox="0 0 15 10" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M0 5h13M9 1l4 4-4 4"/></svg></span></button>
+    </div>
+  </div>
+</section>
+
+<nav class="seclist">
+  <a href="#styles"><b>01</b> Styles</a>
+  <a href="#glyphs"><b>02</b> Glyphs</a>
+  <a href="#inuse"><b>03</b> In use</a>
+  <a href="#licensing"><b>04</b> Licensing</a>
+  <span class="arw">→</span>
+</nav>
+
+<!-- ================= 字重 ================= -->
+<section class="sec" id="styles">
+  <div class="sec-hd">
+    <h2>One family.<br>Every register.</h2>
+    <div class="side">
+      <p>Quiet in the small print. Confident in the headlines. Six weights, with everything in between.</p>
+      <div class="axes">Upright · Weight 300–700 · Width 75–100</div>
+    </div>
+  </div>
+
+  <div class="weights" id="weights"></div>
+  <div class="wnote">Variable WOFF2 + 6 static styles included with every family license.</div>
+</section>
+
+<!-- ================= 字宽 ================= -->
+<div class="width-demo">
+  <div class="big" id="wdBig">WIDE</div>
+  <div class="wd-scale">
+    <span>Condensed</span>
+    <span class="ln"><input type="range" id="rWd" min="75" max="100" value="100" step="1"></span>
+    <span>Expanded</span>
+  </div>
+</div>
+
+<!-- ================= 字符集 ================= -->
+<section class="glyphs" id="glyphs">
+  <div class="sec-hd">
+    <h2>Character.<br>In every character.</h2>
+    <div class="side">
+      <p>Latin &amp; extended Latin.<br>Punctuation and symbols.</p>
+    </div>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button class="on" data-set="upper">Uppercase</button>
+    <button data-set="lower">Lowercase</button>
+    <button data-set="num">Numbers</button>
+    <button data-set="sym">Symbols</button>
+  </div>
+
+  <div class="gwrap">
+    <div class="ggrid" id="ggrid"></div>
+    <div>
+      <div class="gbig" id="gbig">R</div>
+      <div class="gmeta"><span id="gcode">U+0052</span><span>KG Sans Regular</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 使用案例 ================= -->
+<section class="sec" id="inuse">
+  <div class="sec-hd">
+    <h2>Out in the world.</h2>
+    <div class="side"><p>Set by people who needed a face that holds up at any size.</p></div>
+  </div>
+
+  <div class="cases">
+    <article class="case">
+      <div class="art">
+        <div class="top"><span>Form &amp; Field</span><span>Issue 08<br>Spring 2026</span></div>
+        <h3>A little<br>less.<br>A lot<br>more.</h3>
+        <div class="bot"><span>A room doesn't need more things.<br>It needs a little space to breathe.</span><span class="num">08</span></div>
+      </div>
+      <div class="cap"><span>01 / Editorial</span><span>KG Sans Light + Bold</span></div>
+    </article>
+
+    <article class="case">
+      <div class="art">
+        <div class="top"><span>Walk Club</span><span>Saturday<br>May 23, 2026</span></div>
+        <h3>Take<br>the long<br>way.</h3>
+        <div class="bot">
+          <span>Meet at 10:30 AM.<br>Riverside Park, New York.</span>
+          <svg class="arrow-path" viewBox="0 0 400 60" fill="none" stroke="#16181A" stroke-width="3.4" stroke-linecap="round" preserveAspectRatio="xMidYMid meet">
+            <path d="M2 44h250a16 16 0 0 0 16-16V26a16 16 0 0 1 16-16h104"/>
+            <path d="M378 4l14 6-14 6"/>
+          </svg>
+          <span style="text-align:right">Everyone<br>welcome.</span>
+        </div>
+      </div>
+      <div class="cap"><span>02 / Identity &amp; posters</span><span>KG Sans Condensed</span></div>
+    </article>
+  </div>
+</section>
+
+<!-- ================= 授权 CTA ================= -->
+<section class="cta" id="licensing">
+  <div class="cta-in">
+    <div>
+      <h2>Set it<br>your way.</h2>
+      <p>One project or the next ten.<br>A license that fits the way you work.</p>
+    </div>
+    <div class="r">
+      <div class="from">Full family from</div>
+      <div class="price">$98<em>USD</em></div>
+      <button id="openLic">Choose your license <span>→</span></button>
+      <div class="fine">Perpetual licenses. No subscription.</div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot" id="foundry">
+  <a class="logo" href="#">kiln<sup>®</sup></a>
+  <div class="mid">Independent type.</div>
+  <div class="rt">Based in Rotterdam.<br>Working everywhere.<br><a href="#">About the foundry →</a></div>
+</footer>
+
+<!-- ================= 授权弹窗 ================= -->
+<div class="ov" id="ov">
+  <div class="modal">
+    <div class="m-top"><span>Licensing / KG Sans</span><button class="x" id="closeLic">✕</button></div>
+
+    <div class="m-body">
+      <aside class="m-left">
+        <div class="kick">The complete family</div>
+        <h3>KG<br>Sans<sup>®</sup></h3>
+        <p class="desc">6 weights + variable font<br>Static + variable font files.</p>
+        <div class="aa">Aa</div>
+        <div class="inc">
+          <b>Every license includes</b>
+          All 6 upright weights<br>
+          Variable font files<br>
+          Lifetime use &amp; updates
+        </div>
+      </aside>
+
+      <div class="m-right">
+        <h4>Where will it live?</h4>
+        <p class="sub">Select the uses you need. Add more anytime.</p>
+
+        <div class="lic on" data-price="148">
+          <label class="lic-row">
+            <span class="bx">✓</span>
+            <span><span class="nm">Desktop</span><span class="ds">Print, logos, and social graphics.</span></span>
+            <span class="pr">$148</span>
+          </label>
+          <div class="lic-users">Users
+            <select><option>1–3 users</option><option>4–10 users</option><option>11+ users</option></select>
+          </div>
+        </div>
+
+        <div class="lic" data-price="98">
+          <label class="lic-row">
+            <span class="bx">✓</span>
+            <span><span class="nm">Web</span><span class="ds">Live text on your website.</span></span>
+            <span class="pr">$98</span>
+          </label>
+        </div>
+
+        <div class="lic" data-price="248">
+          <label class="lic-row">
+            <span class="bx">✓</span>
+            <span><span class="nm">App</span><span class="ds">Embedded in mobile or desktop apps.</span></span>
+            <span class="pr">$248</span>
+          </label>
+        </div>
+
+        <div class="acc" id="acc">What does my license cover? <span>+</span></div>
+        <div class="acc-body" id="accBody">Desktop covers print and static graphics up to 500k impressions. Web covers live text on one domain. App covers embedding in up to three products. Upgrade anytime by paying the difference.</div>
+
+        <a class="custom" href="#">Need a larger scope? Custom license →</a>
+      </div>
+    </div>
+
+    <div class="m-foot">
+      <div>
+        <div class="sl">License subtotal</div>
+        <div class="sv"><b id="subtotal">$148</b><span>USD</span></div>
+      </div>
+      <button id="addCart">Add family to cart →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const q = new URLSearchParams(location.search);
+
+/* ---------- 试字 ---------- */
+const spec   = document.getElementById('spec');
+const rSize  = document.getElementById('rSize');
+const rWght  = document.getElementById('rWeight');
+const rWdth  = document.getElementById('rWidth');
+const vSize  = document.getElementById('vSize');
+const vWght  = document.getElementById('vWeight');
+const vWdth  = document.getElementById('vWidth');
+const align  = document.getElementById('align');
+
+const D = { size:205, weight:700, width:100, align:'left', text:'Take up<br>space.' };
+
+function apply(){
+  const max = innerWidth < 900 ? 96 : 280;
+  rSize.max = max;
+  if(+rSize.value > max) rSize.value = max;
+  spec.style.fontSize = rSize.value + 'px';
+  spec.style.fontVariationSettings = `'wght' ${rWght.value},'wdth' ${rWdth.value}`;
+  spec.style.textAlign = align.value;
+  vSize.textContent = rSize.value + ' px';
+  vWght.textContent = rWght.value;
+  vWdth.textContent = rWdth.value + '%';
+}
+[rSize, rWght, rWdth].forEach(el => el.addEventListener('input', apply));
+align.addEventListener('change', apply);
+
+/* 输入时同步宽度：字数越多字号越小，保证不折成三行以上 */
+spec.addEventListener('input', () => { if(fitOn) fitText(); });
+
+/* Fit text：二分找出能放进一行的最大字号 */
+let fitOn = false;
+const fitBtn = document.getElementById('fit');
+function fitText(){
+  const w = spec.clientWidth;
+  let lo = 24, hi = 240;
+  for(let i = 0; i < 12; i++){
+    const mid = (lo + hi) / 2;
+    rSize.value = mid;
+    spec.style.fontSize = mid + 'px';
+    if(spec.scrollHeight <= parseFloat(getComputedStyle(spec).lineHeight) * 2.1) lo = mid; else hi = mid;
+  }
+  rSize.value = Math.floor(lo);
+  apply();
+}
+fitBtn.addEventListener('click', () => {
+  fitOn = !fitOn;
+  fitBtn.classList.toggle('on', fitOn);
+  if(fitOn) fitText();
+});
+
+/* 更多控制 */
+const more = document.getElementById('more');
+const moreBtn = document.getElementById('moreBtn');
+moreBtn.addEventListener('click', () => {
+  const open = more.classList.toggle('open');
+  document.getElementById('moreLab').textContent = open ? 'Hide controls' : 'More controls';
+  document.getElementById('morePm').textContent = open ? '−' : '+';
+});
+
+/* 预设 */
+const PRESETS = {
+  poster:    { size:196, weight:700, width:88,  align:'left'   },
+  editorial: { size:132, weight:420, width:100, align:'left'   },
+  compact:   { size:96,  weight:560, width:75,  align:'left'   },
+};
+document.querySelectorAll('.pbtn').forEach(b => b.addEventListener('click', () => {
+  const p = PRESETS[b.dataset.preset];
+  document.querySelectorAll('.pbtn').forEach(x => x.classList.toggle('on', x === b));
+  rSize.value = p.size; rWght.value = p.weight; rWdth.value = p.width; align.value = p.align;
+  apply();
+}));
+
+document.getElementById('reset').addEventListener('click', () => {
+  rSize.value = D.size; rWght.value = D.weight; rWdth.value = D.width; align.value = D.align;
+  spec.innerHTML = D.text; fitOn = false; fitBtn.classList.remove('on');
+  document.querySelectorAll('.pbtn').forEach(x => x.classList.remove('on'));
+  apply();
+});
+
+/* ---------- 字重表 ---------- */
+const W = [
+  ['Light',300], ['Regular',400], ['Medium',480],
+  ['Semi Bold',560], ['Bold',640], ['Black',700],
+];
+document.getElementById('weights').innerHTML = W.map(([n,v]) => `
+  <div class="wrow">
+    <span class="nm">${n}</span>
+    <span class="vl">${v}</span>
+    <span class="sp" style="font-variation-settings:'wght' ${v},'wdth' 100">Good things take type.</span>
+  </div>`).join('');
+
+/* ---------- 字宽演示 ---------- */
+const wdBig = document.getElementById('wdBig');
+const rWd = document.getElementById('rWd');
+rWd.addEventListener('input', () => {
+  wdBig.style.fontVariationSettings = `'wght' 700,'wdth' ${rWd.value}`;
+});
+
+/* ---------- 字符集 ---------- */
+const SETS = {
+  upper: 'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞ'.split(''),
+  lower: 'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïñòóôõöøùúûüýþß'.split(''),
+  num:   '0123456789.,:;!?/\\|()[]{}<>+=−×÷%‰@&§¶'.split(''),
+  sym:   '←↑→↓↔↕∞≈≠≤≥√∑∏∫∂∆Ωπµ°′″†‡•…‹›«»„“”‘’–—'.split(''),
+};
+const ggrid = document.getElementById('ggrid');
+const gbig  = document.getElementById('gbig');
+const gcode = document.getElementById('gcode');
+
+function paint(set, start = 0){
+  const list = SETS[set].slice(start, start + 32);
+  const esc = t => t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  ggrid.innerHTML = list.map((ch, i) => `<div class="gcell${i === 2 ? ' on' : ''}" data-ch="${esc(ch)}">${esc(ch)}</div>`).join('');
+  const first = list[2] || list[0];
+  gbig.textContent = first;
+  gcode.textContent = 'U+' + first.codePointAt(0).toString(16).toUpperCase().padStart(4,'0');
+  ggrid.querySelectorAll('.gcell').forEach(c => c.addEventListener('click', () => {
+    ggrid.querySelectorAll('.gcell').forEach(x => x.classList.remove('on'));
+    c.classList.add('on');
+    gbig.textContent = c.dataset.ch;
+    gcode.textContent = 'U+' + c.dataset.ch.codePointAt(0).toString(16).toUpperCase().padStart(4,'0');
+  }));
+}
+paint('upper');
+document.querySelectorAll('#tabs button').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('#tabs button').forEach(x => x.classList.toggle('on', x === b));
+  paint(b.dataset.set);
+}));
+
+/* ---------- 授权弹窗 ---------- */
+const ov = document.getElementById('ov');
+const subtotal = document.getElementById('subtotal');
+function sum(){
+  let t = 0;
+  document.querySelectorAll('.lic').forEach(l => { if(l.classList.contains('on')) t += +l.dataset.price; });
+  subtotal.textContent = '$' + t;
+  return t;
+}
+document.querySelectorAll('.lic').forEach(l => {
+  l.querySelector('.lic-row').addEventListener('click', e => {
+    e.preventDefault();
+    l.classList.toggle('on');
+    l.querySelector('.bx').textContent = l.classList.contains('on') ? '✓' : '';
+    sum();
+  });
+});
+document.getElementById('acc').addEventListener('click', () => {
+  document.getElementById('accBody').classList.toggle('open');
+});
+function openLic(){ ov.classList.add('open'); sum(); }
+function closeLic(){ ov.classList.remove('open'); }
+document.getElementById('openLic').addEventListener('click', openLic);
+document.getElementById('buy').addEventListener('click', openLic);
+document.getElementById('closeLic').addEventListener('click', closeLic);
+ov.addEventListener('click', e => { if(e.target === ov) closeLic(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeLic(); });
+
+let cart = 0;
+document.getElementById('addCart').addEventListener('click', () => {
+  cart += 1;
+  document.getElementById('cartN').textContent = cart;
+  closeLic();
+});
+
+/* ---------- 滚动进度 ---------- */
+const prog = document.getElementById('prog');
+addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - innerHeight;
+  prog.style.width = (h > 0 ? scrollY / h * 100 : 0) + '%';
+}, { passive:true });
+
+/* ---------- 初始状态（供截图用） ---------- */
+apply();
+if(q.get('panel') === '1') moreBtn.click();
+if(q.get('modal') === '1') openLic();
+</script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Kiln Type · 三态总览</title>
+<style>
+  :root{
+    --paper:#F2EEE4; --ink:#16181A; --brand:#E9633A;
+    --line:rgba(22,24,26,.16); --muted:rgba(22,24,26,.56);
+    --sans:"Bahnschrift","Segoe UI",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;-webkit-font-smoothing:antialiased}
+  html,body{height:100%}
+  body{
+    margin:0; background:#E7E2D6; display:grid; place-items:center;
+    font-family:var(--sans); color:var(--ink);
+  }
+  .board{
+    width:1440px; height:1104px; background:var(--paper);
+    padding:32px 40px 26px; display:flex; flex-direction:column;
+  }
+
+  .top{display:flex; align-items:baseline; gap:16px; padding-bottom:14px; border-bottom:1px solid var(--line)}
+  .top h1{margin:0; font-size:22px; letter-spacing:-.01em; font-variation-settings:'wght' 700,'wdth' 92}
+  .top span{font-size:12px; color:var(--muted)}
+  .top .r{margin-left:auto; font-size:11.5px; color:var(--muted); letter-spacing:.04em}
+
+  .grid{display:grid; grid-template-columns:1fr 1fr; gap:20px 22px; padding-top:20px}
+
+  .cell{display:flex; flex-direction:column}
+  .frame{
+    position:relative; overflow:hidden; background:#fff;
+    border:1px solid var(--line); aspect-ratio:1440/900;
+  }
+  .frame iframe{position:absolute; top:0; left:0; border:0; transform-origin:top left}
+
+  .cap{display:flex; align-items:baseline; gap:10px; padding-top:9px}
+  .cap b{font-size:12.5px; font-weight:400; font-variation-settings:'wght' 600}
+  .cap span{font-size:11px; color:var(--muted)}
+  .cap em{margin-left:auto; font-style:normal; font-size:10.5px; color:var(--muted); letter-spacing:.05em}
+
+  /* 手机格：两块竖屏并排 */
+  .phones{
+    display:flex; gap:18px; justify-content:center; align-items:center;
+    aspect-ratio:1440/900; background:#EAE5D9;
+    border:1px solid var(--line); padding:14px; overflow:hidden;
+  }
+  .ph{position:relative; height:100%; aspect-ratio:390/844; overflow:hidden; border:1px solid rgba(22,24,26,.18); background:#fff}
+  .ph iframe{position:absolute; top:0; left:0; border:0; transform-origin:top left}
+
+  .foot{display:flex; justify-content:space-between; padding-top:12px; border-top:1px solid var(--line); font-size:11px; color:var(--muted); margin-top:auto}
+</style>
+</head>
+<body>
+<div class="board">
+
+  <div class="top">
+    <h1>kiln®</h1>
+    <span>KG Sans — independent type foundry</span>
+    <span class="r">01 / 04 · 1440 × 900</span>
+  </div>
+
+  <div class="grid">
+
+    <div class="cell">
+      <div class="frame" data-w="1440" data-h="900">
+        <iframe src="index.html" width="1440" height="900" scrolling="no" title="首屏"></iframe>
+      </div>
+      <div class="cap"><b>01 首屏</b><span>可编辑主标题 + 实时试字</span><em>Default</em></div>
+    </div>
+
+    <div class="cell">
+      <div class="frame" data-w="1440" data-h="900">
+        <iframe src="index.html?panel=1" width="1440" height="900" scrolling="no" title="试字面板展开"></iframe>
+      </div>
+      <div class="cap"><b>02 试字面板展开</b><span>预设 / 对齐 / 重置</span><em>More controls</em></div>
+    </div>
+
+    <div class="cell">
+      <div class="frame" data-w="1440" data-h="900">
+        <iframe src="index.html?modal=1" width="1440" height="900" scrolling="no" title="授权选择"></iframe>
+      </div>
+      <div class="cap"><b>03 授权选择</b><span>按用途勾选，小计实时更新</span><em>Licensing</em></div>
+    </div>
+
+    <div class="cell">
+      <div class="phones">
+        <div class="ph" data-w="390" data-h="844"><iframe src="index.html" width="390" height="844" scrolling="no" title="手机版首屏"></iframe></div>
+        <div class="ph" data-w="390" data-h="844"><iframe src="index.html?modal=1" width="390" height="844" scrolling="no" title="手机版授权"></iframe></div>
+      </div>
+      <div class="cap"><b>04 手机版</b><span>390 宽响应式 · 首屏与授权</span><em>Mobile</em></div>
+    </div>
+
+  </div>
+
+  <div class="foot">
+    <span>Variable font: weight 300–700 · width 75–100</span>
+    <span>No framework · no build · no dependencies</span>
+  </div>
+
+</div>
+
+<script>
+  function fit(){
+    document.querySelectorAll('[data-w]').forEach(box => {
+      const ifr = box.querySelector('iframe');
+      const w = +box.dataset.w, h = +box.dataset.h;
+      const s = Math.min(box.clientWidth / w, box.clientHeight / h);
+      ifr.style.width  = w + 'px';
+      ifr.style.height = h + 'px';
+      ifr.style.transform = `scale(${s})`;
+    });
+  }
+  addEventListener('load', fit);
+  addEventListener('resize', fit);
+  fit();
+</script>
+</body>
+</html>
