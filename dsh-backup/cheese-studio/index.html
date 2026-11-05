@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>定制 · 酪坊 LAOFANG 手工熟成奶酪</title>
+<style>
+:root{
+  --linen:#FBF6EC; --card:#FFFDF8; --ink:#2A241C; --ink2:#4B4438; --muted:#8B8272;
+  --line:rgba(42,36,28,.13); --line2:rgba(42,36,28,.07);
+  --olive:#6B7A4E; --olive-soft:#EDF0E4;
+  --brick:#B4552F; --brick-soft:#F7E9E2;
+  --pad:clamp(18px,3.6vw,52px);
+  --serif:"Songti SC","STSong","SimSun","Noto Serif SC",serif;
+  --sans:"Helvetica Neue",Arial,"PingFang SC","HarmonyOS Sans SC","Microsoft YaHei",sans-serif;
+  --mono:"SFMono-Regular","JetBrains Mono",Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--linen);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;font-size:14px;line-height:1.5}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit;text-decoration:none}
+
+.flavor{flex:0 0 auto;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 16px 14px}
+.fhead{display:flex;align-items:baseline;gap:8px;font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.fhead b{color:var(--ink);font-weight:600;letter-spacing:.14em}
+.fhead em{font-style:normal;color:var(--muted)}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px 18px}
+.fgrid b{display:block;font-size:9px;letter-spacing:.16em;color:var(--muted);font-weight:500;margin-bottom:1px}
+.fgrid span{font-size:12.5px;color:var(--ink2);letter-spacing:.01em}
+.hd{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px var(--pad);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand svg{width:36px;height:36px}
+.brand b{font-family:var(--serif);font-size:23px;letter-spacing:.18em;font-weight:600}
+.brand span{font-family:var(--mono);font-size:9px;letter-spacing:.3em;color:var(--muted);margin-left:6px}
+.hd nav{display:flex;gap:30px;font-size:13px;color:var(--ink2)}
+.hd nav a.on{color:var(--ink);border-bottom:1px solid var(--ink);padding-bottom:3px}
+.hd .right{display:flex;align-items:center;gap:18px;font-size:12.5px;color:var(--muted)}
+.hd .right b{color:var(--ink)}
+
+.wrap{display:grid;grid-template-columns:1.02fr .98fr;gap:clamp(20px,3vw,46px);padding:clamp(20px,3.4vh,40px) var(--pad) clamp(40px,7vh,90px);align-items:start}
+
+.stage{position:sticky;top:20px;height:calc(100vh - 132px);display:flex;flex-direction:column;gap:12px}
+.board{position:relative;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 30px 60px -46px rgba(42,36,28,.55);flex:1;min-height:0;display:flex;flex-direction:column}
+.board-top{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line2);font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.board-top b{color:var(--ink);font-weight:500}
+.bench{position:relative;flex:1;min-height:0;display:grid;place-items:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.5);background:radial-gradient(72% 72% at 50% 40%, #FBF2E1 0%, #E7D6BB 100%)}
+.bench svg{width:100%;height:100%;display:block}
+.bench .hint{position:absolute;bottom:12px;left:0;right:0;text-align:center;font-family:var(--mono);font-size:9px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+.stage-foot{display:flex;justify-content:space-between;gap:16px;font-size:12px;color:var(--muted);flex:0 0 auto}
+.stage-foot b{color:var(--ink);font-weight:500}
+
+.head h1{font-family:var(--serif);font-size:clamp(26px,3vw,38px);font-weight:600;letter-spacing:.04em;line-height:1.25}
+.head p{margin-top:10px;font-size:13px;line-height:1.9;color:var(--ink2);max-width:40ch}
+.head .steps{display:flex;gap:6px;margin-top:16px}
+.head .steps span{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--muted);border:1px solid var(--line);border-radius:20px;padding:4px 9px}
+
+.block{margin-top:clamp(22px,3.4vh,34px);padding-top:clamp(16px,2.6vh,24px);border-top:1px solid var(--line)}
+.block h2{display:flex;align-items:baseline;gap:10px;font-size:13px;font-weight:600;letter-spacing:.02em}
+.block h2 em{font-family:var(--mono);font-style:normal;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:400}
+.block h2 .val{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--olive);letter-spacing:.06em}
+
+.varieties{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.var{border:1px solid var(--line);border-radius:10px;padding:9px 6px 8px;background:var(--card);transition:.2s;text-align:center}
+.var .dot{width:100%;height:30px;border-radius:6px;display:block;margin-bottom:8px}
+.var span{display:block;font-size:11.5px;color:var(--ink2)}
+.var small{display:block;margin-top:2px;font-family:var(--mono);font-size:9px;color:var(--muted)}
+.var.on{border-color:var(--olive);box-shadow:0 0 0 1px var(--olive) inset;background:var(--olive-soft)}
+.var.on span{color:var(--olive);font-weight:600}
+.var:hover:not(.on){border-color:rgba(42,36,28,.3)}
+
+.shapes{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.shape{border:1px solid var(--line);border-radius:10px;padding:10px 8px 9px;background:var(--card);transition:.2s;text-align:center}
+.shape svg{width:100%;height:46px;display:block}
+.shape span{display:block;margin-top:8px;font-size:11.5px;color:var(--ink2)}
+.shape small{display:block;margin-top:2px;font-family:var(--mono);font-size:9px;color:var(--muted)}
+.shape.on{border-color:var(--olive);box-shadow:0 0 0 1px var(--olive) inset;background:var(--olive-soft)}
+.shape.on span{color:var(--olive);font-weight:600}
+
+.rinds{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.rind{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:100px;padding:7px 15px 7px 8px;background:var(--card);transition:.2s}
+.rind i{width:26px;height:26px;border-radius:50%;flex:0 0 26px;display:block}
+.rind span{font-size:12px}
+.rind small{font-family:var(--mono);font-size:9px;color:var(--muted);margin-left:2px}
+.rind.on{border-color:var(--olive);background:var(--olive-soft)}
+.rind.on span{color:var(--olive);font-weight:600}
+
+.size-row{display:flex;align-items:center;gap:16px;margin-top:16px}
+.size-row output{font-family:var(--mono);font-size:20px;letter-spacing:-.02em;min-width:96px;color:var(--ink)}
+.size-row output small{font-size:11px;color:var(--muted);margin-left:2px}
+input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:2px;background:var(--line);outline:0}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--olive);border:3px solid var(--card);box-shadow:0 0 0 1px var(--olive);cursor:pointer}
+.hintline{margin-top:12px;font-size:11.5px;color:var(--muted);line-height:1.8}
+
+.summary{margin-top:clamp(24px,4vh,38px);border:1px solid var(--ink);border-radius:14px;background:var(--card);padding:18px 20px}
+.sum-line{display:flex;justify-content:space-between;gap:12px;font-size:12.5px;color:var(--muted);padding:4px 0}
+.sum-line b{color:var(--ink2);font-weight:500;font-variant-numeric:tabular-nums}
+.sum-total{display:flex;align-items:baseline;justify-content:space-between;margin-top:10px;padding-top:12px;border-top:1px solid var(--line2)}
+.sum-total .p{font-family:var(--serif);font-size:34px;font-weight:600;letter-spacing:-.02em}
+.sum-total .p small{font-size:13px;color:var(--muted);margin-left:4px;font-family:var(--sans);font-weight:400}
+.sum-total .t{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+.buy{width:100%;margin-top:14px;height:50px;border-radius:10px;background:var(--brick);color:#fff;font-size:14px;letter-spacing:.04em;transition:.2s}
+.buy:hover{background:#9A4526}
+.note{margin-top:10px;font-family:var(--mono);font-size:9px;line-height:1.8;letter-spacing:.06em;color:var(--muted);text-align:center;text-transform:uppercase}
+
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,18px);background:var(--ink);color:#fff;padding:12px 22px;border-radius:100px;font-size:12.5px;opacity:0;pointer-events:none;transition:.35s cubic-bezier(.2,.8,.2,1);z-index:80}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+@media (max-width:960px){
+  .wrap{grid-template-columns:1fr;gap:24px}
+  .stage{position:static}
+  .summary{position:static}
+}
+@media (max-width:560px){
+  .hd nav{display:none}
+  .varieties{grid-template-columns:repeat(2,1fr)}
+  .shapes{grid-template-columns:repeat(2,1fr)}
+  .head h1{font-size:24px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="hd">
+  <a class="brand" href="#">
+    <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+      <path d="M8 22c0-7 5-12 12-12s12 5 12 12v5H8z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+      <path d="M8 27h24" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+      <circle cx="16" cy="20" r="1.6" fill="currentColor"/><circle cx="24" cy="23" r="1.3" fill="currentColor"/>
+    </svg>
+    <b>酪坊</b><span>LAOFANG · AGED CHEESE</span>
+  </a>
+  <nav><a class="on" href="#">现切定制</a><a href="#">整轮</a><a href="#">熟成室</a><a href="#">关于</a></nav>
+  <div class="right"><span>购物车 <b>0</b></span></div>
+</header>
+
+<main class="wrap">
+  <section class="stage">
+    <div class="board">
+      <div class="board-top"><span>砧板 / <b>CUTTING BOARD</b></span><span id="cfgCode">LF-1112</span></div>
+      <div class="bench">
+        <svg id="preview" viewBox="0 0 400 296" aria-label="奶酪预览"></svg>
+        <div class="hint">实时预览 · 按 100g 一份现切</div>
+      </div>
+    </div>
+    <div class="flavor">
+      <div class="fhead"><b>风味档案</b><em>FLAVOR NOTES</em></div>
+      <div class="fgrid">
+        <div><b>熟成</b><span id="fAge">6—12 个月</span></div>
+        <div><b>产区</b><span id="fRegion">萨默塞特</span></div>
+        <div><b>风味</b><span id="fFlavor">坚果 · 焦糖</span></div>
+        <div><b>搭配</b><span id="fPair">苹果 · 黑啤</span></div>
+      </div>
+    </div>
+    <div class="stage-foot">
+      <div>奶源 <b>牧场直送 · 生牛乳</b></div>
+      <div>发货 <b>冷链 · 48 小时</b></div>
+    </div>
+  </section>
+
+  <section class="opts">
+    <div class="head">
+      <h1>切一块只属于你的奶酪</h1>
+      <p>选品种、定形状、挑表皮，再定重量。每一块都从整轮上现切，按你要的熟成度包好冷藏寄出。</p>
+      <div class="steps"><span>01 品种</span><span>02 形状</span><span>03 表皮</span><span>04 重量</span></div>
+    </div>
+
+    <div class="block">
+      <h2>品种 <em>Variety</em><span class="val" id="varVal">切达</span></h2>
+      <div class="varieties" id="varieties"></div>
+    </div>
+
+    <div class="block">
+      <h2>形状 <em>Shape</em><span class="val" id="shapeVal">圆轮</span></h2>
+      <div class="shapes" id="shapes"></div>
+    </div>
+
+    <div class="block">
+      <h2>表皮 <em>Rind</em><span class="val" id="rindVal">天然皮</span></h2>
+      <div class="rinds" id="rinds"></div>
+    </div>
+
+    <div class="block">
+      <h2>重量 <em>Weight</em><span class="val" id="wtVal">400 g</span></h2>
+      <div class="size-row">
+        <output id="wtOut">400<small>g</small></output>
+        <input type="range" id="wt" min="200" max="2000" step="100" value="400">
+      </div>
+      <div class="hintline">200—400 g 单人小份 · 600—1000 g 家庭分享 · 1200 g 以上按整轮预留，需提前 3 天</div>
+    </div>
+
+    <div class="summary">
+      <div class="sum-line"><span>切块基础价（含 200 g）</span><b>¥68</b></div>
+      <div class="sum-line"><span>品种加价</span><b id="sumVar">¥0</b></div>
+      <div class="sum-line"><span>形状 / 表皮</span><b id="sumShape">¥0</b></div>
+      <div class="sum-line"><span>超出重量</span><b id="sumWt">¥18</b></div>
+      <div class="sum-total"><div class="p">¥<span id="total">86</span><small>起</small></div><div class="t">含冰袋与油纸</div></div>
+      <button class="buy" id="buy">加入购物车</button>
+      <div class="note">现切现包 · 冷链 48 小时 · 开封后 7 天内食用</div>
+    </div>
+  </section>
+</main>
+
+<div class="toast" id="toast">已加入购物车</div>
+
+<script>
+(function(){
+  var VARS = [
+    {id:'brie', name:'布里', en:'BRIE', hex:'#F3E4BF', dark:'#DCC79A', light:'#FAF1D8', tex:'none', rind:'#FFFFFF', add:30, age:'4—6 周', region:'诺曼底', flavor:'奶油 · 蘑菇', pair:'法棍 · 气泡酒'},
+    {id:'cheddar', name:'切达', en:'CHEDDAR', hex:'#E0A340', dark:'#C08228', light:'#EFC26E', tex:'none', rind:'#C98E2E', add:0, age:'6—12 个月', region:'萨默塞特', flavor:'坚果 · 焦糖', pair:'苹果 · 黑啤'},
+    {id:'gouda', name:'高达', en:'GOUDA', hex:'#D9A94E', dark:'#B98B36', light:'#E9C67C', tex:'dots', rind:'#C98E2E', add:20, age:'4—8 个月', region:'南荷兰', flavor:'焦糖 · 奶油', pair:'梨 · 波特'},
+    {id:'blue', name:'蓝纹', en:'BLUE', hex:'#E9E3D2', dark:'#C9C2AE', light:'#F6F1E4', tex:'veins', rind:'#DAD3C0', add:60, age:'3—5 个月', region:'洛克福', flavor:'咸鲜 · 辛香', pair:'蜂蜜 · 苏打饼'},
+    {id:'emmental', name:'埃曼塔', en:'EMMENTAL', hex:'#EBCB7F', dark:'#CFAE60', light:'#F6E1A6', tex:'holes', rind:'#D9B96A', add:40, age:'4—6 个月', region:'伯尔尼', flavor:'果香 · 坚果', pair:'葡萄 · 雷司令'},
+    {id:'edam', name:'红波', en:'EDAM', hex:'#F0DFAE', dark:'#D4C08A', light:'#FAEED0', tex:'none', rind:'#C0392B', add:25, age:'3—6 个月', region:'北荷兰', flavor:'温和 · 奶香', pair:'番茄 · 淡啤'},
+    {id:'truffle', name:'黑松露', en:'TRUFFLE', hex:'#8A7A63', dark:'#6C5E4B', light:'#A8977E', tex:'dots', rind:'#5C5040', add:90, age:'2—3 个月', region:'皮埃蒙特', flavor:'松露 · 泥土', pair:'意面 · 巴罗洛'},
+    {id:'chevre', name:'山羊', en:'CHÈVRE', hex:'#F7F3E8', dark:'#DFD9C9', light:'#FFFDF7', tex:'none', rind:'#EDE7D8', add:35, age:'2—4 周', region:'卢瓦尔', flavor:'酸爽 · 青草', pair:'沙拉 · 长相思'}
+  ];
+  var SHAPES = [
+    {id:'wheel', name:'圆轮', en:'WHEEL', add:0},
+    {id:'block', name:'方块', en:'BLOCK', add:10},
+    {id:'wedge', name:'楔形', en:'WEDGE', add:6},
+    {id:'crottin', name:'小轮', en:'CROTTIN', add:14}
+  ];
+  var RINDS = [
+    {id:'natural', name:'天然皮', add:0},
+    {id:'wax', name:'蜡封', add:18},
+    {id:'herb', name:'香草皮', add:26},
+    {id:'ash', name:'灰皮', add:22}
+  ];
+  var cfg = {var:'cheddar', shape:'wheel', rind:'natural', wt:400};
+
+  function vOf(id){ for(var i=0;i<VARS.length;i++) if(VARS[i].id===id) return VARS[i]; return VARS[0]; }
+  function sOf(id){ for(var i=0;i<SHAPES.length;i++) if(SHAPES[i].id===id) return SHAPES[i]; return SHAPES[0]; }
+  function rOf(id){ for(var i=0;i<RINDS.length;i++) if(RINDS[i].id===id) return RINDS[i]; return RINDS[0]; }
+
+  function rindColor(v, rindId){
+    if(rindId==='wax') return v.id==='edam' ? '#C0392B' : '#B4552F';
+    if(rindId==='herb') return '#7C8A5A';
+    if(rindId==='ash') return '#6E6A63';
+    return v.rind;
+  }
+
+  // 纹理
+  function texture(v, shape, w, h, cx, cy){
+    var out='', i;
+    if(v.tex==='holes'){
+      var holes=[[-40,-10,9],[-8,6,12],[28,-6,8],[52,10,6],[-62,14,6],[8,-20,5]];
+      for(i=0;i<holes.length;i++){
+        out += '<ellipse cx="'+(cx+holes[i][0]*w)+'" cy="'+(cy+holes[i][1]*h)+'" rx="'+(holes[i][2]*w)+'" ry="'+(holes[i][2]*h*.55)+'" fill="'+v.dark+'" opacity=".85"/>';
+      }
+    } else if(v.tex==='veins'){
+      var veins=[[-72,-10,54,8],[-64,12,50,-6],[-30,-16,44,10],[-24,10,52,-8],[6,-8,48,6],[18,14,40,-10]];
+      for(i=0;i<veins.length;i++){
+        var vx=cx+veins[i][0]*w, vy=cy+veins[i][1]*h, vl=veins[i][2]*w, va=veins[i][3]*h;
+        out += '<path d="M'+vx+','+vy+' q'+(vl*.45)+','+(-va)+' '+(vl*.7)+',0 q'+(vl*.3)+','+(va*.8)+' '+(vl*.5)+','+(-va*.4)+'" stroke="#5F7A70" stroke-width="'+(2.2*w)+'" fill="none" opacity=".7" stroke-linecap="round"/>';
+      }
+      out += '<circle cx="'+(cx-18*w)+'" cy="'+(cy-2*h)+'" r="'+(3*w)+'" fill="#4E6A60" opacity=".8"/><circle cx="'+(cx+22*w)+'" cy="'+(cy+8*h)+'" r="'+(2.4*w)+'" fill="#4E6A60" opacity=".7"/>';
+    } else if(v.tex==='dots'){
+      var dots=[[-46,-6],[-22,8],[4,-12],[30,4],[54,-4],[-64,10],[16,14]];
+      for(i=0;i<dots.length;i++){
+        out += '<circle cx="'+(cx+dots[i][0]*w)+'" cy="'+(cy+dots[i][1]*h)+'" r="'+(2.2*w)+'" fill="'+(v.id==='truffle'?'#2E2A22':v.dark)+'" opacity=".7"/>';
+      }
+    }
+    return out;
+  }
+
+  // 边缘线 / 表皮颗粒 / 碎屑
+  function edgeStroke(d, o){
+    return '<path d="'+d+'" fill="none" stroke="#2A241C" stroke-width="1.6" opacity="'+(o||0.14)+'" stroke-linejoin="round"/>';
+  }
+  function stipple(x, y, w, h, color, n, seed){
+    var out='', s=seed||1;
+    for(var i=0;i<n;i++){
+      s=(s*9301+49297)%233280;
+      var rx=(s/233280);
+      s=(s*9301+49297)%233280;
+      var ry=(s/233280);
+      out += '<circle cx="'+(x+rx*w).toFixed(1)+'" cy="'+(y+ry*h).toFixed(1)+'" r="'+(0.8+rx*1.2).toFixed(1)+'" fill="'+color+'" opacity="'+(0.18+ry*0.22).toFixed(2)+'"/>';
+    }
+    return out;
+  }
+
+  function cheese(shape, v, rindHex, H){
+    var c=v.hex, cd=v.dark, cl=v.light;
+
+    if(shape==='wheel' || shape==='crottin'){
+      var isW = shape==='wheel';
+      var rx = isW?104:54, ry = isW?38:18, cy = isW?134:150;
+      var HH = isW ? H : (52 + H*0.55);
+      var bot = cy + HH;
+      var sidePath = 'M'+(200-rx)+','+cy+' L'+(200-rx)+','+bot+' A'+rx+','+ry+' 0 0 0 '+(200+rx)+','+bot+' L'+(200+rx)+','+cy+' Z';
+      return '<ellipse cx="200" cy="'+(bot+ry*0.72)+'" rx="'+(rx*1.06)+'" ry="'+(ry*0.55)+'" fill="#3A2E22" opacity=".14"/>'
+        + '<ellipse cx="200" cy="'+bot+'" rx="'+rx+'" ry="'+ry+'" fill="'+cd+'"/>'
+        + '<path d="'+sidePath+'" fill="'+rindHex+'"/>'
+        + '<path d="M'+(200-rx)+','+cy+' L'+(200-rx)+','+bot+'" stroke="#2A241C" stroke-width="1.4" opacity=".10"/>'
+        + '<path d="M'+(200+rx)+','+cy+' L'+(200+rx)+','+bot+'" stroke="#2A241C" stroke-width="1.4" opacity=".16"/>'
+        + '<path d="M'+(200-rx)+','+cy+' A'+rx+','+ry+' 0 0 0 '+(200+rx)+','+cy+'" fill="none" stroke="#2A241C" stroke-width="1.2" opacity=".08"/>'
+        + stipple(200-rx, cy+4, rx*2, HH-6, cd, 26, 7)
+        + '<path d="M'+(200-rx)+','+cy+' A'+rx+','+ry+' 0 0 1 '+(200+rx)+','+cy+'" fill="none" stroke="#FFFFFF" stroke-width="3" opacity=".18"/>'
+        + '<ellipse cx="200" cy="'+cy+'" rx="'+rx+'" ry="'+ry+'" fill="'+c+'"/>'
+        + texture(v, shape, isW?1:.62, isW?1:.62, 200, cy)
+        + '<ellipse cx="200" cy="'+cy+'" rx="'+rx+'" ry="'+ry+'" fill="none" stroke="'+cd+'" stroke-width="2" opacity=".38"/>'
+        + '<ellipse cx="200" cy="'+cy+'" rx="'+(rx-3)+'" ry="'+(ry-3)+'" fill="none" stroke="#FFFFFF" stroke-width="1.4" opacity=".22"/>';
+    }
+
+    if(shape==='block'){
+      var x=104,y=140,w=168,h=84,dx=34,dy=-26;
+      var P1=[x,y],P2=[x+w,y],P3=[x+w+dx,y+dy],P4=[x+dx,y+dy],
+          P5=[x+w,y+h],P6=[x+w+dx,y+h+dy],P7=[x,y+h];
+      return '<path d="M'+P1+' L'+P7+' L'+P5+' L'+P6+' L'+P3+' Z" fill="'+cd+'" opacity=".18"/>'
+        + '<path d="M'+P4+' L'+P3+' L'+P6+' L'+P5+' L'+P7+' Z" fill="#3A2E22" opacity=".06"/>'
+        + '<path d="M'+P1+' L'+P4+' L'+P3+' L'+P2+' Z" fill="'+cl+'"/>'
+        + '<path d="M'+P2+' L'+P3+' L'+P6+' L'+P5+' Z" fill="'+rindHex+'"/>'
+        + '<path d="M'+P1+' L'+P2+' L'+P5+' L'+P7+' Z" fill="'+c+'"/>'
+        + stipple(x, y, w, h, cd, 22, 13)
+        + texture(v, shape, 1, 1, x+w/2, y+h/2)
+        + edgeStroke('M'+P1+' L'+P4+' L'+P3+' L'+P2+' Z', .16)
+        + edgeStroke('M'+P2+' L'+P3+' L'+P6+' L'+P5+' Z', .18)
+        + edgeStroke('M'+P1+' L'+P2+' L'+P5+' L'+P7+' Z', .16)
+        + '<path d="M'+P1+' L'+P2+'" stroke="#FFFFFF" stroke-width="2.4" opacity=".25"/>'
+        + '<path d="M'+P1+' L'+P4+'" stroke="#FFFFFF" stroke-width="2" opacity=".2"/>';
+    }
+
+    if(shape==='wedge'){
+      var A=[112,238],B=[300,238],C=[112,116];
+      var D=[A[0]-26,A[1]-20],E=[B[0]-26,B[1]-20],F=[C[0]-26,C[1]-20];
+      return '<ellipse cx="196" cy="242" rx="112" ry="16" fill="#3A2E22" opacity=".12"/>'
+        + '<path d="M'+A+' L'+C+' L'+F+' L'+D+' Z" fill="'+rindHex+'"/>'
+        + '<path d="M'+C+' L'+B+' L'+E+' L'+F+' Z" fill="'+cl+'"/>'
+        + '<path d="M'+A+' L'+B+' L'+E+' L'+D+' Z" fill="'+cd+'" opacity=".55"/>'
+        + '<path d="M'+A+' L'+B+' L'+C+' Z" fill="'+c+'"/>'
+        + '<clipPath id="wclip"><path d="M'+A+' L'+B+' L'+C+' Z"/></clipPath>'
+        + '<g clip-path="url(#wclip)">'+stipple(116,124,180,110, cd, 16, 3)+texture(v, shape, .72, .72, 185, 198)+'</g>'
+        + edgeStroke('M'+C+' L'+B+' L'+E+' L'+F+' Z', .14)
+        + edgeStroke('M'+A+' L'+C+' L'+F+' L'+D+' Z', .12)
+        + edgeStroke('M'+A+' L'+B+' L'+C+' Z', .18)
+        + '<path d="M'+A+' L'+B+'" stroke="#FFFFFF" stroke-width="2.4" opacity=".22"/>';
+    }
+
+    // crottin 已在上面按圆柱处理，这里兜底
+    return '';
+  }
+
+  function render(){
+    var v=vOf(cfg.var), r=rOf(cfg.rind);
+    var rindHex = rindColor(v, cfg.rind);
+    var H = 34 + (cfg.wt-200)/100*3.2;         // 200g -> 34, 2000g -> 92
+    var scale = 0.9 + (cfg.wt-200)/2000*0.25;
+    var svg = '<defs><filter id="sh" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#5A4A38" flood-opacity=".16"/></filter></defs>'
+      + '<g filter="url(#sh)" transform="translate(200,238) scale('+scale.toFixed(2)+') translate(-200,-238)">'
+      + cheese(cfg.shape, v, rindHex, H)
+      + '</g>'
+      + '<g opacity=".9">'
+      + '<circle cx="318" cy="252" r="3.4" fill="'+v.hex+'"/><circle cx="326" cy="246" r="2.2" fill="'+v.light+'"/>'
+      + '<circle cx="86" cy="250" r="2.6" fill="'+v.hex+'"/><circle cx="78" cy="256" r="1.8" fill="'+v.dark+'"/>'
+      + '</g>';
+    document.getElementById('preview').innerHTML = svg;
+
+    document.getElementById('varVal').textContent = v.name;
+    document.getElementById('fAge').textContent = v.age;
+    document.getElementById('fRegion').textContent = v.region;
+    document.getElementById('fFlavor').textContent = v.flavor;
+    document.getElementById('fPair').textContent = v.pair;
+    document.getElementById('shapeVal').textContent = sOf(cfg.shape).name;
+    document.getElementById('rindVal').textContent = r.name;
+    document.getElementById('wtVal').textContent = cfg.wt + ' g';
+    document.getElementById('wtOut').innerHTML = cfg.wt + '<small>g</small>';
+    document.getElementById('cfgCode').textContent = 'LF-' + (SHAPES.map(function(x){return x.id}).indexOf(cfg.shape)+1) + (RINDS.map(function(x){return x.id}).indexOf(cfg.rind)+1) + String(cfg.wt/100).padStart(2,'0');
+
+    var vAdd=v.add, rsAdd=sOf(cfg.shape).add + r.add;
+    var wAdd = Math.max(0, Math.round((cfg.wt-200)/100)*18);
+    document.getElementById('sumVar').textContent='¥'+vAdd;
+    document.getElementById('sumShape').textContent='¥'+rsAdd;
+    document.getElementById('sumWt').textContent='¥'+wAdd;
+    document.getElementById('total').textContent = 68+vAdd+rsAdd+wAdd;
+  }
+
+  function mini(shapeId, v){
+    var H = shapeId==='crottin'?54:(shapeId==='block'?70:40);
+    return '<svg viewBox="70 80 260 190">' + cheese(shapeId, v, v.rind, H) + '</svg>';
+  }
+
+  function buildVars(){
+    var el=document.getElementById('varieties');
+    el.innerHTML = VARS.map(function(v){
+      return '<button class="var '+(cfg.var===v.id?'on':'')+'" data-v="'+v.id+'"><i class="dot" style="background:linear-gradient(140deg,'+v.light+','+v.hex+')"></i><span>'+v.name+'</span><small>'+(v.add?'+¥'+v.add:'含')+'</small></button>';
+    }).join('');
+    el.querySelectorAll('.var').forEach(function(b){
+      b.addEventListener('click',function(){ cfg.var=b.dataset.v; buildVars(); buildShapes(); render(); });
+    });
+  }
+  function buildShapes(){
+    var v=vOf(cfg.var), el=document.getElementById('shapes');
+    el.innerHTML = SHAPES.map(function(s){
+      return '<button class="shape '+(cfg.shape===s.id?'on':'')+'" data-s="'+s.id+'">'+mini(s.id,v)+'<span>'+s.name+'</span><small>'+(s.add?'+¥'+s.add:'含')+'</small></button>';
+    }).join('');
+    el.querySelectorAll('.shape').forEach(function(b){
+      b.addEventListener('click',function(){ cfg.shape=b.dataset.s; buildShapes(); render(); });
+    });
+  }
+  function buildRinds(){
+    var v=vOf(cfg.var), el=document.getElementById('rinds');
+    el.innerHTML = RINDS.map(function(r){
+      return '<button class="rind '+(cfg.rind===r.id?'on':'')+'" data-r="'+r.id+'"><i style="background:'+rindColor(v,r.id)+'"></i><span>'+r.name+'</span><small>'+(r.add?'+¥'+r.add:'')+'</small></button>';
+    }).join('');
+    el.querySelectorAll('.rind').forEach(function(b){
+      b.addEventListener('click',function(){ cfg.rind=b.dataset.r; buildRinds(); render(); });
+    });
+  }
+
+  buildVars(); buildShapes(); buildRinds();
+  document.getElementById('wt').addEventListener('input',function(e){ cfg.wt=Number(e.target.value); render(); });
+
+  var toast=document.getElementById('toast'), tt;
+  document.getElementById('buy').addEventListener('click',function(){
+    toast.textContent='已加入购物车 · ¥'+document.getElementById('total').textContent+' · '+vOf(cfg.var).name+'/'+sOf(cfg.shape).name+'/'+cfg.wt+'g';
+    toast.classList.add('on'); clearTimeout(tt); tt=setTimeout(function(){toast.classList.remove('on')},2400);
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

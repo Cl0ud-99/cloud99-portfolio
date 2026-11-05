@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>南枝 NANZHI — 插画 · 绘本</title>
+<style>
+@font-face{font-family:"Instrument Serif";src:url("./assets/fonts/InstrumentSerif-Regular.ttf") format("truetype");font-display:swap}
+:root{
+  --paper:#FAF4EA; --ink:#26221E; --muted:#7A7268; --line:rgba(38,34,30,.14);
+  --plum:#6E4257; --teal:#2E6B66; --ochre:#C9952F; --clay:#C0613F;
+  --pad:clamp(20px,4.6vw,72px);
+  --serif:"Songti SC","STSong","SimSun","Noto Serif SC",serif;
+  --latin:"Instrument Serif",serif;
+  --sans:"Helvetica Neue",Arial,"PingFang SC","HarmonyOS Sans SC","Microsoft YaHei",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:40;opacity:.28;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.26'/%3E%3C/svg%3E")}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+
+/* header */
+.hd{display:flex;align-items:flex-start;justify-content:space-between;gap:28px;padding:clamp(26px,4.4vh,52px) var(--pad) 18px}
+.brand{display:flex;align-items:center;gap:14px}
+.brand svg{width:40px;height:40px;flex:0 0 40px}
+.brand .nm{line-height:1}
+.brand .nm b{display:block;font-family:var(--serif);font-size:clamp(26px,2.6vw,38px);font-weight:600;letter-spacing:.06em}
+.brand .nm span{display:block;margin-top:9px;font-size:10.5px;letter-spacing:.34em;color:var(--muted)}
+.hd nav{display:flex;align-items:center;gap:clamp(18px,2.4vw,34px);padding-top:12px;font-size:13.5px}
+.hd nav a{position:relative;padding-bottom:4px;color:#3B362F}
+.hd nav a.on::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--ink)}
+.hd nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--ink);transform:scaleX(0);transform-origin:right;transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+.hd nav a:hover::after{transform:scaleX(1);transform-origin:left}
+.talk{display:flex;align-items:center;gap:9px;border:1px solid var(--ink);padding:11px 18px;font-size:12.5px;margin-top:4px;transition:.25s}
+.talk:hover{background:var(--ink);color:var(--paper)}
+.rule{height:1px;background:var(--line);margin:0 var(--pad)}
+
+/* works */
+.works{padding:clamp(24px,4vh,42px) var(--pad) clamp(40px,7vh,90px)}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:clamp(22px,3.4vh,36px);flex-wrap:wrap}
+.sec-head h1{font-family:var(--serif);font-size:clamp(28px,3.4vw,44px);font-weight:600;letter-spacing:.04em;line-height:1}
+.filters{display:flex;align-items:center;gap:clamp(14px,2vw,26px);font-size:12.5px;color:var(--muted)}
+.filters button{position:relative;padding-bottom:4px;color:var(--muted);transition:color .2s}
+.filters button.on{color:var(--ink)}
+.filters button.on::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--ink)}
+.filters .yr{margin-left:clamp(10px,2vw,28px);font-size:11.5px;letter-spacing:.08em;color:var(--muted)}
+
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(16px,2.2vw,30px)}
+.card{display:block;position:relative}
+.card .frame{position:relative;overflow:hidden;background:#fff;box-shadow:0 1px 0 rgba(38,34,30,.06)}
+.card .frame img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+.card:hover .frame img{transform:scale(1.03)}
+.card .cap{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-top:14px}
+.card h3{font-family:var(--serif);font-size:clamp(17px,1.5vw,21px);font-weight:600;letter-spacing:.03em}
+.card p{margin-top:6px;font-size:11.5px;letter-spacing:.06em;color:var(--muted)}
+.card .arr{flex:0 0 auto;color:#9A9186;transition:transform .35s,color .25s}
+.card:hover .arr{color:var(--ink);transform:translate(2px,-2px)}
+.w1{grid-column:span 5}.w1 .frame{aspect-ratio:4/3}
+.w2{grid-column:span 3}.w2 .frame{aspect-ratio:3/4}
+.w3{grid-column:span 4}.w3 .frame{aspect-ratio:5/4}
+.w4{grid-column:span 4}.w4 .frame{aspect-ratio:1/1}
+.w5{grid-column:span 5}.w5 .frame{aspect-ratio:16/10}
+.w6{grid-column:span 3}.w6 .frame{aspect-ratio:3/4}
+
+/* serial */
+.serial{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:clamp(28px,4.6vh,56px) var(--pad);display:grid;grid-template-columns:1.35fr 1fr;gap:clamp(24px,4vw,64px);align-items:center;background:rgba(110,66,87,.035)}
+.serial .frame{overflow:hidden;box-shadow:0 18px 40px -30px rgba(38,34,30,.55)}
+.serial img{display:block;width:100%;height:auto}
+.serial .txt .k{font-size:10.5px;letter-spacing:.3em;color:var(--plum);text-transform:uppercase}
+.serial h2{font-family:var(--serif);font-size:clamp(24px,2.8vw,36px);font-weight:600;margin-top:12px;letter-spacing:.04em}
+.serial p{margin-top:14px;font-size:13.5px;line-height:1.95;color:#4C463D;max-width:32ch}
+.serial .meta{display:flex;gap:22px;margin-top:20px;font-size:11.5px;color:var(--muted);letter-spacing:.06em}
+.serial a.more{display:inline-flex;align-items:center;gap:8px;margin-top:26px;font-size:12.5px;border-bottom:1px solid var(--ink);padding-bottom:4px}
+.serial a.more:hover{color:var(--plum);border-color:var(--plum)}
+
+/* about / contact */
+.about{padding:clamp(40px,7vh,96px) var(--pad);display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,80px)}
+.about h2{font-family:var(--serif);font-size:clamp(24px,2.6vw,34px);font-weight:600;letter-spacing:.04em;line-height:1.5}
+.about h2 em{font-style:normal;color:var(--plum)}
+.about .col p{font-size:13.5px;line-height:2;color:#4C463D;max-width:34ch}
+.about .col p + p{margin-top:14px}
+.contact{margin-top:28px;display:flex;flex-direction:column;gap:10px;font-size:12.5px}
+.contact a{display:inline-flex;align-items:center;gap:8px;width:fit-content;border-bottom:1px solid var(--line);padding-bottom:3px}
+.contact a:hover{border-color:var(--ink)}
+footer{padding:26px var(--pad) 34px;display:flex;justify-content:space-between;gap:18px;font-size:11px;letter-spacing:.1em;color:var(--muted);border-top:1px solid var(--line);flex-wrap:wrap}
+
+@media (max-width:1000px){
+  .grid{gap:18px}
+  .w1,.w5{grid-column:span 7}.w2,.w3,.w4,.w6{grid-column:span 5}
+  .serial{grid-template-columns:1fr;gap:24px}
+  .about{grid-template-columns:1fr;gap:28px}
+}
+@media (max-width:700px){
+  .hd{flex-direction:column;gap:16px}
+  .hd nav{gap:18px;padding-top:0;font-size:12.5px;width:100%;justify-content:space-between}
+  .talk{width:100%;justify-content:center}
+  .grid{grid-template-columns:1fr;gap:26px}
+  .w1,.w2,.w3,.w4,.w5,.w6{grid-column:span 1}
+  .w1 .frame,.w2 .frame,.w3 .frame,.w4 .frame,.w5 .frame,.w6 .frame{aspect-ratio:4/3}
+  .sec-head{gap:16px}
+  .filters{flex-wrap:wrap;gap:14px}
+  .filters .yr{margin-left:0;width:100%}
+  footer{flex-direction:column;gap:8px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="hd">
+  <a class="brand" href="./index.html">
+    <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+      <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="1.4" opacity=".45"/>
+      <path d="M24 37V17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M24 26c-7 1-11-4-10-10 6-1 11 3 10 10z" fill="currentColor" opacity=".9"/>
+      <path d="M24 20c6-1 9-5 8-10-5-1-9 2-8 10z" fill="currentColor" opacity=".55"/>
+    </svg>
+    <span class="nm"><b>南枝</b><span>NANZHI · 插画 / 绘本</span></span>
+  </a>
+  <nav><a class="on" href="#works">作品</a><a href="#serial">绘本连载</a><a href="#about">关于</a></nav>
+  <a class="talk" href="#about">聊聊合作 ↗</a>
+</header>
+<div class="rule"></div>
+
+<main class="works" id="works">
+  <div class="sec-head">
+    <h1>最近的画</h1>
+    <div class="filters" id="filters">
+      <button class="on" data-f="all">全部</button>
+      <button data-f="book">绘本</button>
+      <button data-f="daily">日常</button>
+      <button data-f="client">委托</button>
+      <span class="yr">2023 — 2026</span>
+    </div>
+  </div>
+
+  <div class="grid" id="grid">
+    <a class="card w1" href="./work.html" data-cat="book">
+      <div class="frame"><img src="./assets/art/forest-house.svg" alt="去林子里住一晚"></div>
+      <div class="cap"><div><h3>去林子里住一晚</h3><p>绘本 · 2026</p></div><span class="arr">↗</span></div>
+    </a>
+    <a class="card w2" href="./work.html" data-cat="daily">
+      <div class="frame"><img src="./assets/art/oranges.svg" alt="橘子色的星期天"></div>
+      <div class="cap"><div><h3>橘子色的星期天</h3><p>日常 · 2026</p></div><span class="arr">↗</span></div>
+    </a>
+    <a class="card w3" href="./work.html" data-cat="client">
+      <div class="frame"><img src="./assets/art/birds.svg" alt="散步，不赶时间"></div>
+      <div class="cap"><div><h3>散步，不赶时间</h3><p>委托 · 2025</p></div><span class="arr">↗</span></div>
+    </a>
+    <a class="card w4" href="./work.html" data-cat="daily">
+      <div class="frame"><img src="./assets/art/window.svg" alt="十一点的窗"></div>
+      <div class="cap"><div><h3>十一点的窗</h3><p>日常 · 2025</p></div><span class="arr">↗</span></div>
+    </a>
+    <a class="card w5" href="./work.html" data-cat="client">
+      <div class="frame"><img src="./assets/art/flowers.svg" alt="花店的开店准备"></div>
+      <div class="cap"><div><h3>花店的开店准备</h3><p>委托 · 2024</p></div><span class="arr">↗</span></div>
+    </a>
+    <a class="card w6" href="./work.html" data-cat="book">
+      <div class="frame"><img src="./assets/art/town.svg" alt="小镇的下午四点"></div>
+      <div class="cap"><div><h3>小镇的下午四点</h3><p>绘本 · 2023</p></div><span class="arr">↗</span></div>
+    </a>
+  </div>
+</main>
+
+<section class="serial" id="serial">
+  <div class="frame"><img src="./assets/art/book-spread.svg" alt="绘本连载内页"></div>
+  <div class="txt">
+    <div class="k">正在连载 / Serialized</div>
+    <h2>《住在森林边上》<br>第 12 话 · 屋顶上的那一页</h2>
+    <p>一只小狐狸在森林边上住了很久。它每天做一件小事，然后把这件事画进书里。每两周更新一话。</p>
+    <div class="meta"><span>共 32 页</span><span>色纸版画</span><span>更新于 10.28</span></div>
+    <a class="more" href="./work.html">读这一话 →</a>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div>
+    <h2>我画画，也做书。<br><em>偶尔接一点委托。</em></h2>
+  </div>
+  <div class="col">
+    <p>南枝，独立插画师，现居杭州。做儿童绘本、杂志插图和一点点版画。喜欢用有限的几种颜色，把普通的一天画得值得多看一眼。</p>
+    <p>合作过出版社、独立书店和一些小而认真的品牌。</p>
+    <div class="contact">
+      <a href="mailto:hello@nanzhi.studio">hello@nanzhi.studio ↗</a>
+      <a href="#">小红书 @南枝的画</a>
+      <a href="#">Instagram @nanzhi.draws ↗</a>
+    </div>
+  </div>
+</section>
+
+<footer><span>© 2026 南枝 NANZHI</span><span>杭州 · 中国</span><span>本站插画均为原创</span></footer>
+
+<script>
+document.getElementById('filters').addEventListener('click',function(e){
+  var b=e.target.closest('button'); if(!b) return;
+  this.querySelectorAll('button').forEach(function(x){x.classList.remove('on')});
+  b.classList.add('on');
+  var f=b.dataset.f;
+  document.querySelectorAll('#grid .card').forEach(function(c){
+    c.style.display=(f==='all'||c.dataset.cat===f)?'':'none';
+  });
+});
+</script>
+</body>
+</html>

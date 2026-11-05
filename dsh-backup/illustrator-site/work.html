@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>去林子里住一晚 — 南枝 NANZHI</title>
+<style>
+@font-face{font-family:"Instrument Serif";src:url("./assets/fonts/InstrumentSerif-Regular.ttf") format("truetype");font-display:swap}
+:root{
+  --paper:#FAF4EA; --ink:#26221E; --muted:#7A7268; --line:rgba(38,34,30,.14);
+  --plum:#6E4257; --teal:#2E6B66; --ochre:#C9952F; --clay:#C0613F;
+  --pad:clamp(20px,4.6vw,72px);
+  --serif:"Songti SC","STSong","SimSun","Noto Serif SC",serif;
+  --latin:"Instrument Serif",serif;
+  --sans:"Helvetica Neue",Arial,"PingFang SC","HarmonyOS Sans SC","Microsoft YaHei",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:40;opacity:.28;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.26'/%3E%3C/svg%3E")}
+a{color:inherit;text-decoration:none}
+.hd{display:flex;align-items:flex-start;justify-content:space-between;gap:28px;padding:clamp(26px,4.4vh,52px) var(--pad) 18px}
+.brand{display:flex;align-items:center;gap:14px}
+.brand svg{width:40px;height:40px;flex:0 0 40px}
+.brand .nm{line-height:1}
+.brand .nm b{display:block;font-family:var(--serif);font-size:clamp(26px,2.6vw,38px);font-weight:600;letter-spacing:.06em}
+.brand .nm span{display:block;margin-top:9px;font-size:10.5px;letter-spacing:.34em;color:var(--muted)}
+.hd nav{display:flex;align-items:center;gap:clamp(18px,2.4vw,34px);padding-top:12px;font-size:13.5px}
+.hd nav a{position:relative;padding-bottom:4px;color:#3B362F}
+.hd nav a.on::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--ink)}
+.talk{display:flex;align-items:center;gap:9px;border:1px solid var(--ink);padding:11px 18px;font-size:12.5px;margin-top:4px;transition:.25s}
+.talk:hover{background:var(--ink);color:var(--paper)}
+.rule{height:1px;background:var(--line);margin:0 var(--pad)}
+
+.head{padding:clamp(22px,3.6vh,40px) var(--pad) 0}
+.back{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);letter-spacing:.06em}
+.back:hover{color:var(--ink)}
+.title-row{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;margin-top:clamp(16px,2.6vh,28px);flex-wrap:wrap}
+h1{font-family:var(--serif);font-size:clamp(32px,4.6vw,62px);font-weight:600;letter-spacing:.04em;line-height:1.15}
+.sub{margin-top:10px;font-size:12.5px;color:var(--muted);letter-spacing:.1em}
+.meta{display:flex;gap:clamp(18px,2.6vw,38px);font-size:11px;color:var(--muted);letter-spacing:.1em}
+.meta b{display:block;color:var(--ink);font-weight:500;margin-top:5px;letter-spacing:.04em;font-size:12.5px}
+
+.hero{padding:clamp(20px,3.2vh,34px) var(--pad) 0}
+.hero .frame{overflow:hidden;box-shadow:0 30px 60px -44px rgba(38,34,30,.6)}
+.hero img{max-height:64vh;object-fit:cover;object-position:center}
+.hero img{display:block;width:100%;height:auto}
+
+.body{padding:clamp(36px,6vh,70px) var(--pad);display:grid;grid-template-columns:230px 1fr;gap:clamp(28px,5vw,80px);align-items:start}
+.side{position:sticky;top:28px;font-size:11.5px;color:var(--muted);line-height:2.1}
+.side .row{padding:10px 0;border-bottom:1px solid var(--line)}
+.side .row:first-child{padding-top:0}
+.side b{display:block;font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;font-weight:500}
+.prose{max-width:62ch}
+.prose p{font-size:14.5px;line-height:2.15;color:#3F3A33}
+.prose p + p{margin-top:20px}
+.prose .lede{font-family:var(--serif);font-size:clamp(19px,2vw,24px);line-height:1.9;color:var(--ink);letter-spacing:.03em}
+.pull{margin:clamp(30px,5vh,52px) 0;padding-left:22px;border-left:2px solid var(--plum);font-family:var(--serif);font-size:clamp(17px,1.7vw,21px);line-height:2;color:var(--plum)}
+
+.spreads{padding:0 var(--pad) clamp(36px,6vh,70px);display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,2.2vw,28px)}
+.spreads figure{overflow:hidden;box-shadow:0 20px 44px -36px rgba(38,34,30,.55)}
+.spreads img{display:block;width:100%;height:auto}
+.spreads figcaption{margin-top:12px;font-size:11px;color:var(--muted);letter-spacing:.08em}
+
+.next{border-top:1px solid var(--line);padding:clamp(26px,4.4vh,46px) var(--pad);display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;transition:.3s}
+.next:hover{background:rgba(110,66,87,.04)}
+.next .lbl{font-size:10.5px;letter-spacing:.3em;color:var(--muted);text-transform:uppercase}
+.next h2{font-family:var(--serif);font-size:clamp(22px,2.6vw,32px);font-weight:600;margin-top:8px;letter-spacing:.04em}
+.next .go{font-size:22px;color:var(--muted);transition:.3s}
+.next:hover .go{color:var(--ink);transform:translateX(6px)}
+footer{padding:26px var(--pad) 34px;display:flex;justify-content:space-between;gap:18px;font-size:11px;letter-spacing:.1em;color:var(--muted);border-top:1px solid var(--line);flex-wrap:wrap}
+
+@media (max-width:900px){
+  .body{grid-template-columns:1fr;gap:24px}
+  .side{position:static;display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
+  .spreads{grid-template-columns:1fr}
+}
+@media (max-width:700px){
+  .hd{flex-direction:column;gap:16px}
+  .hd nav{gap:18px;padding-top:0;font-size:12.5px;width:100%;justify-content:space-between}
+  .talk{width:100%;justify-content:center}
+  .title-row{flex-direction:column;align-items:flex-start;gap:18px}
+  .meta{gap:22px;flex-wrap:wrap}
+  .prose p{font-size:13.5px;line-height:2}
+  footer{flex-direction:column;gap:8px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="hd">
+  <a class="brand" href="./index.html">
+    <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+      <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="1.4" opacity=".45"/>
+      <path d="M24 37V17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M24 26c-7 1-11-4-10-10 6-1 11 3 10 10z" fill="currentColor" opacity=".9"/>
+      <path d="M24 20c6-1 9-5 8-10-5-1-9 2-8 10z" fill="currentColor" opacity=".55"/>
+    </svg>
+    <span class="nm"><b>南枝</b><span>NANZHI · 插画 / 绘本</span></span>
+  </a>
+  <nav><a class="on" href="./index.html#works">作品</a><a href="./index.html#serial">绘本连载</a><a href="./index.html#about">关于</a></nav>
+  <a class="talk" href="./index.html#about">聊聊合作 ↗</a>
+</header>
+<div class="rule"></div>
+
+<main>
+  <div class="head">
+    <a class="back" href="./index.html">← 全部作品</a>
+    <div class="title-row">
+      <div>
+        <h1>去林子里住一晚</h1>
+        <div class="sub">A night in the woods · 绘本</div>
+      </div>
+      <div class="meta">
+        <div>年份<b>2026</b></div>
+        <div>类别<b>绘本 / 32 页</b></div>
+        <div>媒介<b>色纸版画</b></div>
+        <div>出版<b>青苔文库</b></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero"><div class="frame"><img src="./assets/art/forest-wide.svg" alt="去林子里住一晚 封面"></div></div>
+
+  <div class="body">
+    <aside class="side">
+      <div class="row"><b>尺寸</b>210 × 265 mm</div>
+      <div class="row"><b>印量</b>3,000 册</div>
+      <div class="row"><b>颜色</b>四色 · 专色赭黄</div>
+      <div class="row"><b>创作周期</b>7 个月</div>
+      <div class="row"><b>工具</b>剪纸 · 版画 · 数码上色</div>
+    </aside>
+
+    <article class="prose">
+      <p class="lede">这本书讲的是：一只狐狸决定去森林里住一晚，然后它住了很多晚。</p>
+      <p>故事从一个下午开始。小狐狸背着一个小包，走过一条被树影切碎的路。它没有目的地，只是想看看林子深处是什么样子。</p>
+      <p>整本书我用五种颜色的纸来剪，再拓印到米色的纸上。树是青绿的，屋顶是梅子色的，太阳是赭黄的——只有小狐狸是陶土色的，这样它走到哪儿都能被一眼找到。</p>
+      <div class="pull">「夜里发生的事，大多不会被写下来。<br>所以第二天，它画了下来。」</div>
+      <p>最后一页，小狐狸坐在屋顶上，手里拿着一页被风吹走的纸。那一页上什么也没写——留给读者自己填。</p>
+    </article>
+  </div>
+
+  <div class="spreads">
+    <figure><img src="./assets/art/book-spread.svg" alt="内页：风把纸吹到屋顶"><figcaption>内页 12 — 风从林子里出来</figcaption></figure>
+    <figure><img src="./assets/art/flowers.svg" alt="内页：花店"><figcaption>内页 18 — 森林边上的花</figcaption></figure>
+  </div>
+
+  <a class="next" href="./work.html">
+    <div><div class="lbl">Next work</div><h2>橘子色的星期天</h2></div>
+    <div class="go">→</div>
+  </a>
+</main>
+
+<footer><span>© 2026 南枝 NANZHI</span><span>杭州 · 中国</span><span>本站插画均为原创</span></footer>
+</body>
+</html>

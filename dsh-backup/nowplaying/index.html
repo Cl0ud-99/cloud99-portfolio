@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LIUSHENG — Midnight Route / Poster</title>
+<style>
+:root{
+  --void:#0A0A0A; --ink:#F2F2EF; --dim:#6B6B66; --line:#2A2A28;
+  --lime:#D7FF3E; --flame:#FF4D2E;
+  --sans:"Arial Black","Helvetica Neue",Arial,sans-serif;
+  --mono:"SFMono-Regular","JetBrains Mono",Consolas,monospace;
+  --pad:clamp(16px,3.2vw,44px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--void);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow:hidden}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit;text-decoration:none}
+
+.stage{height:100vh;display:grid;grid-template-rows:auto 1fr auto auto;overflow:hidden}
+
+/* ---------- top bar ---------- */
+.bar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:14px var(--pad);border-bottom:1px solid var(--lime)}
+.bar .l,.bar .r{display:flex;align-items:center;gap:22px;font-family:var(--mono);font-size:9.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--dim)}
+.bar b{color:var(--ink);font-weight:500}
+.bar .dot{width:6px;height:6px;border-radius:50%;background:var(--flame);display:block;animation:blink 1.4s steps(2,end) infinite}
+@keyframes blink{50%{opacity:.15}}
+.bar .l .name{color:var(--lime);letter-spacing:.3em}
+
+/* ---------- main ---------- */
+.main{display:grid;grid-template-columns:1.42fr .58fr;gap:clamp(20px,3.4vw,54px);padding:clamp(14px,3vh,34px) var(--pad) clamp(10px,2vh,22px);min-height:0;align-items:center}
+.hero{position:relative;min-width:0}
+.no{font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--flame);margin-bottom:clamp(6px,1.4vh,14px)}
+.title{text-transform:uppercase;font-size:clamp(46px,7.6vw,118px);line-height:1.02;letter-spacing:-.05em;font-weight:800;text-transform:none}
+.title span{display:block}
+.title .out{color:transparent;-webkit-text-stroke:2px var(--ink)}
+.title .tail{color:var(--lime)}
+.subline{display:flex;align-items:baseline;gap:16px;margin-top:clamp(14px,2.6vh,26px);font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.subline b{color:var(--ink);font-weight:500;letter-spacing:.12em}
+
+/* right column */
+.side{display:flex;flex-direction:column;justify-content:flex-end;gap:clamp(12px,2.2vh,22px);min-width:0}
+.token{display:grid;grid-template-columns:repeat(2,1fr);width:clamp(88px,8vw,120px);height:clamp(88px,8vw,120px);gap:2px;margin-bottom:auto}
+.token i{display:block}
+.rows{border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:66px 1fr;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.row b{color:var(--ink);font-family:var(--sans);font-weight:700;font-size:12.5px;letter-spacing:.06em;text-align:right;text-transform:none}
+
+.ctrls{display:flex;gap:8px;align-items:stretch}
+.ctl{flex:1;border:1px solid var(--ink);display:grid;place-items:center;height:clamp(48px,5.4vh,62px);transition:.15s}
+.ctl:hover{background:var(--ink);color:var(--void)}
+.ctl svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.play{flex:1.5;background:var(--lime);color:var(--void);border-color:var(--lime)}
+.play:hover{background:#E8FF7A;color:var(--void)}
+.play svg{fill:currentColor;stroke:none;width:22px;height:22px}
+.ctl.on{border-color:var(--lime);color:var(--lime)}
+
+/* ---------- wave ---------- */
+.wavezone{border-top:1px solid var(--line);padding:0 0 0}
+.wave{position:relative;height:clamp(72px,11vh,116px);cursor:pointer;touch-action:none;display:flex;align-items:center;gap:0}
+.bars{display:flex;align-items:center;justify-content:space-between;width:100%;height:100%;padding:0 var(--pad)}
+.b{width:3px;background:#333331;transition:background .1s,height .1s}
+.b.p{background:var(--lime)}
+.b.n{background:var(--ink)}
+.cursor{position:absolute;top:8px;bottom:8px;width:2px;background:var(--flame);pointer-events:none}
+.wmeta{display:flex;justify-content:space-between;padding:8px var(--pad) 10px;font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--dim)}
+.wmeta b{color:var(--ink);font-weight:500}
+
+/* ---------- foot ---------- */
+.foot{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px var(--pad) 14px;border-top:1px solid var(--line)}
+.tabs{display:flex;gap:26px}
+.tab{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);padding-bottom:4px;border-bottom:1px solid transparent;transition:.15s}
+.tab:hover{color:var(--ink)}
+.tab.on{color:var(--lime);border-color:var(--lime)}
+.vol{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;color:var(--dim)}
+.vol input{-webkit-appearance:none;appearance:none;width:110px;height:1px;background:#3A3A38;outline:0}
+.vol input::-webkit-slider-thumb{-webkit-appearance:none;width:9px;height:9px;background:var(--lime);cursor:pointer}
+
+/* ---------- overlay ---------- */
+.scrim{position:fixed;inset:0;background:rgba(10,10,10,.6);opacity:0;pointer-events:none;transition:.28s;z-index:50}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;top:0;right:0;bottom:0;width:min(560px,100%);background:#111110;border-left:1px solid var(--lime);z-index:60;transform:translateX(101%);transition:transform .42s cubic-bezier(.2,.9,.2,1);display:flex;flex-direction:column;padding:26px var(--pad)}
+.sheet.on{transform:none}
+.sheet-head{display:flex;justify-content:space-between;align-items:center;padding-bottom:16px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+.sheet-head b{color:var(--lime)}
+.sheet-body{flex:1;overflow-y:auto;padding-top:8px}
+.qrow{display:grid;grid-template-columns:34px 1fr auto;gap:14px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.qrow .i{font-family:var(--mono);font-size:10px;color:var(--dim)}
+.qrow .t{display:block;font-size:clamp(18px,2vw,24px);font-weight:800;letter-spacing:-.02em;line-height:1.15}
+.qrow .a{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--dim);margin-top:6px;text-transform:uppercase}
+.qrow .d{font-family:var(--mono);font-size:10px;color:var(--dim)}
+.qrow.now .t{color:var(--lime)}
+.qrow:hover .t{color:var(--flame)}
+.lrow{padding:11px 0;font-size:15px;color:var(--dim);cursor:pointer;transition:.2s;border-bottom:1px solid transparent}
+.lrow:hover{color:var(--ink)}
+.lrow.on{color:var(--lime);font-weight:700}
+.lrow.on:before{content:"→ ";font-family:var(--mono)}
+
+@media (max-width:900px){
+  .bar{padding:12px var(--pad);gap:10px}
+  .bar .l,.bar .r{gap:10px;white-space:nowrap}
+  .bar .l span:nth-child(2),.bar .r span:first-child,.bar .r span:last-child{display:none}
+  body{overflow:auto}
+  .stage{height:auto;min-height:100vh;grid-template-rows:auto auto auto auto}
+  .main{grid-template-columns:1fr;gap:22px;align-items:start}
+  .title{font-size:clamp(64px,17vw,120px)}
+  .token{width:76px;height:76px;margin-bottom:0}
+  .side{gap:16px}
+  .row{grid-template-columns:56px 1fr}
+  .wavezone{margin-top:8px}
+  .wave{height:76px}
+  .b{width:2px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="stage">
+  <header class="bar">
+    <div class="l">
+      <span class="name">LIUSHENG</span>
+      <span>FM 87.6</span>
+      <span class="dot"></span><span id="state">PAUSED</span>
+    </div>
+    <div class="r">
+      <span>SIDE A</span>
+      <span id="clock">00:52 / 04:12</span>
+      <span>2026</span>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="hero">
+      <div class="no">TRACK 01 — NOW PLAYING</div>
+      <h1 class="title"><span>MIDNIGHT</span><span class="out">ROUTE</span></h1>
+      <div class="subline"><b>LIN YE</b><span>·</span><span>LATE NIGHT CHANNEL EP</span><span>·</span><span>2026</span></div>
+    </div>
+
+    <aside class="side">
+      <div class="token" aria-hidden="true">
+        <i style="background:#3A2F4E"></i><i style="background:#F4D06F"></i>
+        <i style="background:#3E7C74"></i><i style="background:#E8735A"></i>
+      </div>
+      <div class="rows">
+        <div class="row"><span>Track</span><b>Midnight Route</b></div>
+        <div class="row"><span>Artist</span><b>Lin Ye</b></div>
+        <div class="row"><span>Album</span><b>Late Night Channel EP</b></div>
+        <div class="row"><span>Heat</span><b>9.4 / 10</b></div>
+      </div>
+      <div class="ctrls">
+        <button class="ctl" id="prev" aria-label="上一首"><svg viewBox="0 0 24 24"><path d="M18 5v14L8 12z" fill="currentColor" stroke="none"/><path d="M6 5v14"/></svg></button>
+        <button class="ctl play" id="play" aria-label="播放"><svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z"/></svg></button>
+        <button class="ctl" id="next" aria-label="下一首"><svg viewBox="0 0 24 24"><path d="M6 5v14l10-7z" fill="currentColor" stroke="none"/><path d="M18 5v14"/></svg></button>
+      </div>
+    </aside>
+  </main>
+
+  <section class="wavezone">
+    <div class="wave" id="wave">
+      <div class="bars" id="bars"></div>
+      <div class="cursor" id="cursor" style="left:0"></div>
+    </div>
+    <div class="wmeta"><span><b id="cur">0:52</b></span><span>DRAG TO SEEK</span><span><b id="dur">4:12</b></span></div>
+  </section>
+
+  <footer class="foot">
+    <div class="tabs">
+      <button class="tab on" data-p="queue">QUEUE 04</button>
+      <button class="tab" data-p="lyric">LYRICS</button>
+    </div>
+    <div class="vol">
+      <span>VOL</span>
+      <input type="range" id="vol" min="0" max="100" value="62">
+    </div>
+  </footer>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="sheet" id="sheet">
+  <div class="sheet-head"><span id="sheetTitle">QUEUE</span><button id="sheetClose">CLOSE ✕</button></div>
+  <div class="sheet-body" id="sheetBody"></div>
+</aside>
+
+<script>
+(function(){
+  var DUR = 252, cur = 52, playing = false;
+  var queue = [
+    {t:'Midnight Route', a:'Lin Ye', d:'4:12', now:true},
+    {t:'Fog Station', a:'Lin Ye', d:'3:48'},
+    {t:'Old Cassette', a:'Bo Zhou', d:'5:06'},
+    {t:'The Sea at 4AM', a:'Lin Ye', d:'4:31'}
+  ];
+  var lyrics = [
+    {t:0,s:'(intro)'},{t:22,s:'One by one the lights fall back'},{t:44,s:'Old shadows settle on the glass'},
+    {t:66,s:'We follow the coastline down'},{t:92,s:'And leave the words to the wind'},{t:118,s:'The night boat never comes to shore'},
+    {t:146,s:'It folds the moonlight into two'},{t:174,s:'One half for you, one for tomorrow'},{t:204,s:"Daylight's coming — don't look back"},{t:232,s:'(outro)'}
+  ];
+  function fmt(s){var m=Math.floor(s/60),x=Math.floor(s%60);return m+':'+(x<10?'0':'')+x;}
+
+  var N=96, seed=11, bars=[];
+  function rnd(){seed=(seed*9301+49297)%233280;return seed/233280;}
+  for(var i=0;i<N;i++){bars.push(Math.max(.12,Math.min(1,.22+rnd()*.78*(.55+.45*Math.sin(i/N*Math.PI*4)))));}
+  var barsEl=document.getElementById('bars');
+  barsEl.innerHTML=bars.map(function(v){return '<span class="b" style="height:'+(v*100).toFixed(0)+'%"></span>';}).join('');
+  var nodes=[].slice.call(barsEl.children);
+
+  function paint(){
+    var r=cur/DUR, upto=Math.round(r*N);
+    nodes.forEach(function(n,i){n.className='b'+(i<upto?' p':(i<upto+3?' n':''));});
+    document.getElementById('cursor').style.left=(r*100)+'%';
+    document.getElementById('cur').textContent=fmt(cur);
+    document.getElementById('dur').textContent=fmt(DUR);
+    document.getElementById('clock').textContent=fmt(cur)+' / '+fmt(DUR);
+    var line=-1; for(var k=0;k<lyrics.length;k++) if(cur>=lyrics[k].t) line=k;
+    document.querySelectorAll('.lrow').forEach(function(p,i){p.classList.toggle('on',i===line);});
+  }
+
+  var wave=document.getElementById('wave'), dragging=false;
+  function seek(e){
+    var r=wave.getBoundingClientRect();
+    cur=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width))*DUR;
+    paint();
+  }
+  wave.addEventListener('pointerdown',function(e){dragging=true;wave.setPointerCapture(e.pointerId);seek(e);});
+  wave.addEventListener('pointermove',function(e){if(dragging)seek(e);});
+  wave.addEventListener('pointerup',function(){dragging=false;});
+  wave.addEventListener('pointercancel',function(){dragging=false;});
+
+  var playIcon=document.getElementById('playIcon'), state=document.getElementById('state');
+  document.getElementById('play').addEventListener('click',function(){
+    playing=!playing;
+    state.textContent=playing?'PLAYING':'PAUSED';
+    state.style.color=playing?'var(--lime)':'';
+    playIcon.innerHTML=playing
+      ?'<rect x="7" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/>'
+      :'<path d="M8 5l11 7-11 7z"/>';
+  });
+  document.getElementById('prev').addEventListener('click',function(){cur=0;paint();});
+  document.getElementById('next').addEventListener('click',function(){cur=0;paint();});
+
+  var sheet=document.getElementById('sheet'), scrim=document.getElementById('scrim'), body=document.getElementById('sheetBody'), title=document.getElementById('sheetTitle'), mode='queue';
+  function render(){
+    if(mode==='queue'){
+      title.textContent='QUEUE / UP NEXT';
+      body.innerHTML=queue.map(function(q,i){
+        return '<div class="qrow '+(q.now?'now':'')+'" data-i="'+i+'"><span class="i">'+('0'+(i+1)).slice(-2)+'</span>'
+          +'<span><span class="t">'+q.t+'</span><span class="a">'+q.a+'</span></span><span class="d">'+q.d+'</span></div>';
+      }).join('');
+    } else {
+      title.textContent='LYRICS';
+      body.innerHTML=lyrics.map(function(l,i){return '<div class="lrow" data-i="'+i+'">'+l.s+'</div>';}).join('');
+    }
+    paint();
+  }
+  document.querySelectorAll('.tab').forEach(function(t){
+    t.addEventListener('click',function(){
+      mode=t.dataset.p;
+      document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});
+      t.classList.add('on');
+      render(); sheet.classList.add('on'); scrim.classList.add('on');
+    });
+  });
+  function close(){sheet.classList.remove('on');scrim.classList.remove('on');}
+  document.getElementById('sheetClose').addEventListener('click',close);
+  scrim.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+  body.addEventListener('click',function(e){
+    var q=e.target.closest('.qrow'); if(q){cur=0;paint();return;}
+    var l=e.target.closest('.lrow'); if(l){cur=lyrics[+l.dataset.i].t;paint();}
+  });
+
+  document.getElementById('vol').addEventListener('input',function(){});
+  setInterval(function(){if(!playing)return;cur+=.5;if(cur>=DUR)cur=0;paint();},500);
+  paint();
+})();
+</script>
+</body>
+</html>

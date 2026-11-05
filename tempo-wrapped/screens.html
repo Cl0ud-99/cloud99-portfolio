@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tempo · 2026 年度报告 · 三屏</title>
+<style>
+  :root{
+    --bg:#12100E;
+    --ink:#F5EDDF;
+    --muted:#8C8175;
+    --line:rgba(245,237,223,.16);
+    --sans:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;
+    --num:"Bahnschrift","Arial Narrow",Impact,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--sans); -webkit-font-smoothing:antialiased;
+    padding:52px 44px 56px;
+  }
+
+  header{max-width:1250px; margin:0 auto 40px; display:flex; align-items:flex-end; justify-content:space-between; gap:40px}
+  .eyebrow{font-family:var(--num); font-size:11px; font-weight:700; letter-spacing:.34em; text-transform:uppercase; color:var(--muted); margin:0 0 14px}
+  h1{font-size:42px; line-height:1.15; letter-spacing:-.03em; margin:0; font-weight:700}
+  header p{margin:14px 0 0; font-size:13.5px; color:var(--muted); max-width:52ch; line-height:1.75}
+  .meta{font-family:var(--num); font-size:11.5px; letter-spacing:.1em; color:var(--muted); text-align:right; line-height:2; white-space:nowrap}
+  .meta b{color:var(--ink)}
+
+  .stage{
+    max-width:1250px; margin:0 auto;
+    display:grid; grid-template-columns:repeat(3,390px); gap:40px; justify-content:space-between;
+  }
+
+  figure{margin:0}
+  .frame{
+    width:390px; height:844px; border-radius:26px; overflow:hidden; background:#1A1613;
+    box-shadow:0 30px 70px rgba(0,0,0,.55), 0 2px 6px rgba(0,0,0,.4);
+  }
+  .frame iframe{display:block; width:390px; height:844px; border:0}
+
+  figcaption{display:flex; align-items:baseline; gap:10px; margin-top:18px}
+  .no{font-family:var(--num); font-size:10.5px; font-weight:700; letter-spacing:.14em; color:var(--bg); background:var(--ink); border-radius:4px; padding:3px 6px; line-height:1}
+  .lbl{font-size:14px; font-weight:700}
+  .sub{font-size:11.5px; color:var(--muted); margin-left:auto; white-space:nowrap}
+
+  footer{
+    max-width:1250px; margin:48px auto 0; padding-top:20px; border-top:1px solid var(--line);
+    display:flex; justify-content:space-between;
+    font-family:var(--num); font-size:11px; letter-spacing:.14em; color:var(--muted);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <p class="eyebrow">Tempo · Year in sound</p>
+    <h1>2026，你听了 31,208 分钟</h1>
+    <p>三页竖屏故事。点着往下看：先是一年的总量，再是那个被你反复点开的人，最后是一句关于你的判断。数字会滚，365 个格子里会一盏盏亮起你听歌的那 33 天。</p>
+  </div>
+  <div class="meta">
+    <div><b>390 × 844</b> · 竖屏故事</div>
+    <div>顶部进度条 · 三页</div>
+  </div>
+</header>
+
+<div class="stage">
+
+  <figure>
+    <div class="frame"><iframe src="index.html?page=1" title="开场"></iframe></div>
+    <figcaption><span class="no">01</span><span class="lbl">开场</span><span class="sub">一年的总量</span></figcaption>
+  </figure>
+
+  <figure>
+    <div class="frame"><iframe src="index.html?page=2" title="最爱的歌手"></iframe></div>
+    <figcaption><span class="no">02</span><span class="lbl">你最爱的歌手</span><span class="sub">次数与排名</span></figcaption>
+  </figure>
+
+  <figure>
+    <div class="frame"><iframe src="index.html?page=3" title="音乐性格"></iframe></div>
+    <figcaption><span class="no">03</span><span class="lbl">音乐性格</span><span class="sub">标签与三项倾向</span></figcaption>
+  </figure>
+
+</div>
+
+<footer>
+  <span>TEMPO · 2026 年度报告</span>
+  <span>01 / 02 / 03</span>
+</footer>
+
+</body>
+</html>

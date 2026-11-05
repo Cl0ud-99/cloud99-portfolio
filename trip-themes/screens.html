@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>一起旅行 — 三套题材九屏对照</title>
+<style>
+  :root{
+    --bg:#e8e4dc;
+    --ink:#2b2420;
+    --muted:#6f6459;
+    --line:rgba(43,36,32,.14);
+    --sans:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;
+    --serif:"SimSun","Songti SC",serif;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--sans); -webkit-font-smoothing:antialiased;
+    padding:56px 40px 64px;
+  }
+
+  header{max-width:1234px; margin:0 auto 40px; display:flex; align-items:flex-end; justify-content:space-between; gap:40px}
+  .eyebrow{font-size:10.5px; font-weight:700; letter-spacing:.18em; color:var(--muted); margin:0 0 12px}
+  h1{font-family:var(--serif); font-size:40px; line-height:1.1; letter-spacing:.01em; margin:0; font-weight:400}
+  header p{margin:12px 0 0; font-size:13.5px; color:var(--muted); max-width:52ch; line-height:1.75}
+  .meta{font-size:11.5px; color:var(--muted); text-align:right; line-height:1.9; white-space:nowrap}
+  .meta b{color:var(--ink); font-weight:700}
+
+  .grid{
+    max-width:1234px; margin:0 auto;
+    display:grid; grid-template-columns:repeat(3,390px); gap:32px; justify-content:center;
+  }
+
+  .colhead{display:flex; align-items:center; gap:10px; padding-bottom:4px}
+  .colhead b{font-size:15px; font-weight:700; letter-spacing:-.01em}
+  .colhead span{font-size:11.5px; color:var(--muted)}
+  .dots{display:flex; gap:4px; margin-left:auto}
+  .dots i{width:11px; height:11px; border-radius:3px; display:block}
+
+  .rowlabel{
+    grid-column:1 / -1; display:flex; align-items:baseline; gap:10px;
+    margin:34px 0 -6px; padding-top:16px; border-top:1px solid var(--line);
+  }
+  .rowlabel .no{font-size:10.5px; font-weight:700; letter-spacing:.1em; color:#fff; background:var(--ink); border-radius:5px; padding:3px 6px; line-height:1}
+  .rowlabel .lbl{font-size:15px; font-weight:700}
+  .rowlabel .sub{font-size:12px; color:var(--muted); margin-left:auto}
+
+  figure{margin:0}
+  .frame{
+    width:390px; height:844px; border-radius:26px; overflow:hidden; background:#fff;
+    box-shadow:0 26px 60px rgba(43,36,32,.20), 0 2px 5px rgba(43,36,32,.08);
+    border:1px solid rgba(43,36,32,.08);
+  }
+  .frame iframe{display:block; width:390px; height:844px; border:0}
+
+  footer{
+    max-width:1234px; margin:48px auto 0; padding-top:20px; border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; font-size:11.5px; color:var(--muted);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <p class="eyebrow">三套题材 · 九个状态</p>
+    <h1>一起旅行</h1>
+    <p>同一套交互、同一份结构，换三套内容与气质。竖着看是三种旅行，横着看是同一件产品的三个状态。</p>
+  </div>
+  <div class="meta">
+    <div><b>390 × 844</b> · 三套题材</div>
+    <div>纸质拼贴插画 · 全中文</div>
+  </div>
+</header>
+
+<div class="grid">
+
+  <div class="colhead">
+    <b>重庆</b><span>四天三夜</span>
+    <span class="dots"><i style="background:#c8392f"></i><i style="background:#2b2b30"></i><i style="background:#e8b64c"></i><i style="background:#b39d84"></i></span>
+  </div>
+  <div class="colhead">
+    <b>冰岛</b><span>环岛自驾</span>
+    <span class="dots"><i style="background:#14181c"></i><i style="background:#6f8f5f"></i><i style="background:#a9c9dd"></i><i style="background:#d4643a"></i></span>
+  </div>
+  <div class="colhead">
+    <b>大理</b><span>环海四日</span>
+    <span class="dots"><i style="background:#2f6f8f"></i><i style="background:#f8f6f0"></i><i style="background:#3a5c8a"></i><i style="background:#c9a26b"></i></span>
+  </div>
+
+  <div class="rowlabel"><span class="no">01</span><span class="lbl">旅行总览</span><span class="sub">四天，四张卡，一个插画</span></div>
+  <figure><div class="frame"><iframe src="index.html?theme=cq&state=overview" title="重庆 总览"></iframe></div></figure>
+  <figure><div class="frame"><iframe src="index.html?theme=is&state=overview" title="冰岛 总览"></iframe></div></figure>
+  <figure><div class="frame"><iframe src="index.html?theme=dl&state=overview" title="大理 总览"></iframe></div></figure>
+
+  <div class="rowlabel"><span class="no">02</span><span class="lbl">某一天的行程与地图</span><span class="sub">地点、时间、交通、预订</span></div>
+  <figure><div class="frame"><iframe src="index.html?theme=cq&state=day" title="重庆 日程"></iframe></div></figure>
+  <figure><div class="frame"><iframe src="index.html?theme=is&state=day" title="冰岛 日程"></iframe></div></figure>
+  <figure><div class="frame"><iframe src="index.html?theme=dl&state=day" title="大理 日程"></iframe></div></figure>
+
+  <div class="rowlabel"><span class="no">03</span><span class="lbl">拖动调整顺序</span><span class="sub">路线实时重连</span></div>
+  <figure><div class="frame"><iframe src="index.html?theme=cq&state=drag" title="重庆 拖拽"></iframe></div></figure>
+  <figure><div class="frame"><iframe src="index.html?theme=is&state=drag" title="冰岛 拖拽"></iframe></div></figure>
+  <figure><div class="frame"><iframe src="index.html?theme=dl&state=drag" title="大理 拖拽"></iframe></div></figure>
+
+</div>
+
+<footer>
+  <span>一起旅行 · 三套题材对照</span>
+  <span>总览 · 日程 · 重排</span>
+</footer>
+
+</body>
+</html>

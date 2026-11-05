@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>一起旅行 · 桌面版三态</title>
+<style>
+  :root{
+    --bg:#e4dfd6;
+    --ink:#2b2420;
+    --muted:#6f6459;
+    --line:rgba(43,36,32,.14);
+    --sans:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;
+    --serif:"SimSun","Songti SC",serif;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--sans); -webkit-font-smoothing:antialiased;
+  }
+
+  .head{padding:56px 56px 40px; display:flex; align-items:flex-end; justify-content:space-between; gap:40px}
+  .eyebrow{font-size:10.5px; font-weight:700; letter-spacing:.18em; color:var(--muted); margin:0 0 12px}
+  h1{font-family:var(--serif); font-size:40px; line-height:1.1; margin:0; font-weight:400}
+  .head p{margin:12px 0 0; font-size:13.5px; color:var(--muted); max-width:56ch; line-height:1.75}
+  .meta{font-size:11.5px; color:var(--muted); text-align:right; line-height:1.9; white-space:nowrap}
+  .meta b{color:var(--ink); font-weight:700}
+
+  .row{border-top:1px solid var(--line)}
+  .rowbar{
+    display:flex; align-items:baseline; gap:12px; padding:22px 56px 18px;
+  }
+  .no{font-size:10.5px; font-weight:700; letter-spacing:.1em; color:#fff; background:var(--ink); border-radius:5px; padding:3px 6px; line-height:1}
+  .lbl{font-size:16px; font-weight:700}
+  .sub{font-size:12px; color:var(--muted); margin-left:auto}
+
+  .shot{width:100%; background:#e4dfd6}
+  .shot iframe{display:block; width:100%; height:900px; border:0}
+</style>
+</head>
+<body>
+
+<div class="head">
+  <div>
+    <p class="eyebrow">桌面版 · 1440 × 900</p>
+    <h1>一起旅行</h1>
+    <p>同一个产品换到桌面上，不是把手机版拉宽。左边是行程骨架，中间是当天可拖的停靠点，右边是一整块地图——拖动卡片时，地图上的路线当场重连。</p>
+  </div>
+  <div class="meta">
+    <div><b>1440 × 900</b> · 三栏工作区</div>
+    <div>侧栏 · 行程 · 地图</div>
+  </div>
+</div>
+
+<section class="row">
+  <div class="rowbar"><span class="no">01</span><span class="lbl">第 2 天 · 默认视图</span><span class="sub">左侧选天，中间看当天，右边看路线</span></div>
+  <div class="shot"><iframe src="desktop.html?theme=cq" title="桌面版 默认"></iframe></div>
+</section>
+
+<section class="row">
+  <div class="rowbar"><span class="no">02</span><span class="lbl">切换天数</span><span class="sub">第 1 天：落地、放行李、吃饭</span></div>
+  <div class="shot"><iframe src="desktop.html?theme=cq&day=0" title="桌面版 第1天"></iframe></div>
+</section>
+
+<section class="row">
+  <div class="rowbar"><span class="no">03</span><span class="lbl">拖动调整顺序</span><span class="sub">卡片抬起，落点虚线，路线改走虚线预览</span></div>
+  <div class="shot"><iframe src="desktop.html?theme=cq&state=drag" title="桌面版 拖拽"></iframe></div>
+</section>
+
+<section class="row">
+  <div class="rowbar"><span class="no">04</span><span class="lbl">换一套题材 · 大理</span><span class="sub">同一套布局，冷色调与宋体标题</span></div>
+  <div class="shot"><iframe src="desktop.html?theme=dl" title="桌面版 大理"></iframe></div>
+</section>
+
+</body>
+</html>

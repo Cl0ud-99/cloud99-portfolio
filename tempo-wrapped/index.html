@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tempo · 2026 年度报告</title>
+<style>
+  :root{
+    --ink:#16120F;
+    --cream:#F5EDDF;
+    --acc:#E2FF6B;
+    --p1:#E4411B;
+    --p2:#242693;
+    --p2a:#E2FF6B;
+    --p3:#F5325F;
+    --p3a:#E2FF6B;
+    --sans:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;
+    --num:"Bahnschrift","Arial Narrow",Impact,"Segoe UI",sans-serif;
+    --disp:"Arial Black","Segoe UI Black","Microsoft YaHei",sans-serif;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{
+    margin:0; background:#0C0A08; font-family:var(--sans);
+    display:grid; place-items:center; -webkit-font-smoothing:antialiased;
+  }
+
+  .story{
+    width:min(390px,100vw); height:min(844px,100dvh);
+    position:relative; overflow:hidden; background:var(--p1); color:var(--ink);
+    isolation:isolate;
+  }
+  @media (min-width:391px){
+    .story{border-radius:26px; box-shadow:0 40px 90px rgba(0,0,0,.6)}
+  }
+
+  .grain{position:absolute; inset:0; z-index:9; pointer-events:none; opacity:.14; mix-blend-mode:overlay}
+
+  /* ---- 顶栏 + 进度 ---- */
+  .topbar{
+    position:absolute; top:48px; left:24px; right:24px; z-index:8;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .logo{display:inline-flex; align-items:center; gap:7px; font-family:var(--num); font-size:15px; font-weight:700; letter-spacing:.02em}
+  .logo svg{display:block}
+  .tag{font-size:10.5px; font-weight:700; letter-spacing:.12em; opacity:.72}
+
+  .progress{
+    position:absolute; top:72px; left:24px; right:24px; z-index:8;
+    display:grid; grid-template-columns:repeat(3,1fr); gap:6px;
+  }
+  .progress i{position:relative; display:block; height:8px; border-radius:4px; overflow:hidden}
+  .progress i::before{content:''; position:absolute; inset:0; background:currentColor; opacity:.18}
+  .progress i b{
+    position:relative; display:block; height:100%; width:100%; border-radius:4px;
+    background:var(--acc); transform:scaleX(0); transform-origin:left;
+  }
+  .progress i.done b{transform:scaleX(1)}
+  .progress i.on b{animation:fill 3.4s linear forwards}
+  @keyframes fill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+
+  /* ---- 页 ---- */
+  .page{
+    position:absolute; inset:0; z-index:1;
+    opacity:0; transform:translateX(7%) scale(.985); pointer-events:none;
+    transition:opacity .4s ease, transform .48s cubic-bezier(.22,.7,.3,1);
+  }
+  .page.is-active{opacity:1; transform:none; pointer-events:auto; z-index:2}
+  .p1{background:var(--p1); color:var(--ink)}
+  .p2{background:var(--p2); color:var(--cream)}
+  .p3{background:var(--p3); color:var(--ink)}
+
+  .kicker{
+    position:absolute; left:24px; top:112px; margin:0;
+    font-size:13px; font-weight:700; letter-spacing:.06em;
+  }
+
+  /* ================= P1 ================= */
+  .bignum{
+    position:absolute; left:20px; top:150px; margin:0;
+    font-family:var(--disp); font-weight:900;
+    font-size:132px; line-height:.82; letter-spacing:-.045em;
+    display:flex; flex-direction:column; font-variant-numeric:tabular-nums;
+    transform:rotate(-2.6deg); transform-origin:8% 0;
+  }
+  .bignum span{display:block}
+  .bignum span + span{margin-left:34px}
+  .unit{
+    position:absolute; left:330px; top:286px;
+    writing-mode:vertical-rl; transform:rotate(-9deg); font-size:12px; font-weight:700; letter-spacing:.4em;
+  }
+  .sub{
+    position:absolute; left:24px; top:402px; margin:0;
+    font-size:13.5px; font-weight:700; letter-spacing:.02em;
+  }
+  .sub b{font-family:var(--num); font-size:16px; letter-spacing:0}
+  .hp{
+    position:absolute; right:22px; top:388px; width:62px; height:62px;
+    transform:rotate(9deg);
+  }
+  .days{
+    position:absolute; left:24px; right:24px; top:452px;
+    display:grid; grid-template-columns:repeat(24,1fr); gap:3px;
+  }
+  .days i{
+    display:block; aspect-ratio:1; border-radius:1.5px;
+    background:var(--cream); opacity:.22; transform:scale(.4);
+  }
+  .days i.f{background:var(--acc); opacity:1}
+  .page.is-active .days i{
+    animation:pop2 .34s cubic-bezier(.2,.9,.3,1.2) forwards;
+    animation-delay:calc(var(--i) * 2.4ms + 420ms);
+  }
+  @keyframes pop2{to{transform:scale(1)}}
+  .cap{
+    position:absolute; left:24px; right:80px; top:702px; margin:0;
+    font-size:11px; font-weight:700; letter-spacing:.1em; opacity:.75; line-height:1.6;
+  }
+  .next{
+    position:absolute; right:24px; bottom:38px; margin:0;
+    font-size:11px; font-weight:700; letter-spacing:.08em; opacity:.8;
+  }
+
+  /* ================= P2 ================= */
+  .roman{
+    position:absolute; right:24px; top:112px;
+    font-family:var(--num); font-size:11px; font-weight:700; letter-spacing:.24em;
+    opacity:.75; transform:rotate(-4deg); transform-origin:right center;
+  }
+  .name{
+    position:absolute; left:22px; top:158px; margin:0;
+    font-size:112px; line-height:.96; letter-spacing:-.04em; font-weight:700;
+    display:flex; flex-direction:column;
+  }
+  .name span:first-child{transform:rotate(-5deg) translateX(-6px); transform-origin:left center}
+  .name span:last-child{transform:rotate(4deg) translateX(12px); transform-origin:left center}
+  .portrait{
+    position:absolute; right:-72px; top:158px; width:300px; height:300px;
+    border-radius:50%; overflow:hidden;
+  }
+  .portrait svg{display:block; width:100%; height:100%}
+  .stat-love{
+    position:absolute; left:24px; bottom:264px; margin:0;
+    font-size:13px; font-weight:700; letter-spacing:.04em; opacity:.9;
+  }
+  .plays{
+    position:absolute; left:20px; bottom:182px; margin:0;
+    font-family:var(--disp); font-weight:900; font-size:73px; line-height:.9;
+    letter-spacing:-.04em; font-variant-numeric:tabular-nums;
+  }
+  .plays em{font-family:var(--sans); font-style:normal; font-size:13px; font-weight:700; letter-spacing:.06em; margin-left:10px; vertical-align:.9em}
+  .rank{
+    position:absolute; right:24px; bottom:188px; margin:0; text-align:right;
+    font-size:12px; font-weight:700; letter-spacing:.04em; opacity:.9;
+  }
+  .pct{
+    position:absolute; right:22px; bottom:94px; margin:0;
+    font-family:var(--disp); font-weight:900; font-size:80px; line-height:.9;
+    letter-spacing:-.04em; color:var(--p2a); font-variant-numeric:tabular-nums;
+    transform:rotate(-3deg); transform-origin:right bottom;
+  }
+  .p2 .next{color:var(--cream)}
+
+  /* ================= P3 ================= */
+  .tagline{
+    position:absolute; left:22px; top:152px; margin:0;
+    font-size:60px; line-height:1.1; letter-spacing:-.045em; font-weight:700;
+  }
+  .tagline span{display:inline-block; opacity:0; transform:translateY(calc(26px + var(--y,0px))) rotate(var(--r,0deg))}
+  .page.is-active .tagline span{animation:pop .48s cubic-bezier(.2,.9,.3,1.12) forwards; animation-delay:calc(var(--i) * 52ms + 180ms)}
+  @keyframes pop{to{opacity:1; transform:translateY(var(--y,0px)) rotate(var(--r,0deg))}}
+  .tagline u.hl{text-decoration:none; position:relative; display:inline-block; z-index:0}
+  .tagline u.hl::after{
+    content:''; position:absolute; left:-7px; right:-7px; bottom:3px; height:58px;
+    background:var(--p3a); z-index:-1; transform:scaleX(0); transform-origin:left; border-radius:3px;
+  }
+  .page.is-active .tagline u.hl::after{animation:swipe .5s cubic-bezier(.2,.8,.3,1) forwards; animation-delay:1.05s}
+  @keyframes swipe{to{transform:scaleX(1)}}
+
+  .p3 .desc{
+    position:absolute; left:24px; top:352px; width:246px; margin:0;
+    font-size:14px; line-height:1.8; color:var(--ink); opacity:.88;
+  }
+  .vinyl{
+    position:absolute; right:16px; top:334px; width:112px; height:112px;
+    transform:rotate(-8deg);
+  }
+  .datanote{
+    position:absolute; left:24px; top:452px; margin:0;
+    font-size:12px; color:var(--ink); opacity:.8;
+  }
+  .datanote b{font-family:var(--num); font-size:22px; color:var(--ink); letter-spacing:-.02em; margin-right:4px}
+
+  .traits{
+    position:absolute; left:24px; right:24px; top:556px;
+    display:flex; flex-direction:column; gap:26px;
+  }
+  .trait{display:grid; grid-template-columns:58px 1fr 38px; align-items:center; gap:12px}
+  .trait b{font-size:12px; font-weight:700; letter-spacing:.06em}
+  .trait .track{height:10px; border-radius:5px; background:rgba(245,237,223,.42); overflow:hidden}
+  .trait .track i{display:block; height:100%; border-radius:5px; background:var(--ink); transform-origin:left; transform:scaleX(0)}
+  .page.is-active .trait .track i{animation:swipe2 .68s cubic-bezier(.2,.8,.3,1) forwards; animation-delay:calc(var(--i) * 110ms + 780ms)}
+  @keyframes swipe2{to{transform:scaleX(1)}}
+  .trait em{font-family:var(--num); font-style:normal; font-weight:700; font-size:13px; text-align:right; font-variant-numeric:tabular-nums}
+
+  .share{
+    position:absolute; left:24px; right:24px; bottom:44px;
+    display:flex; align-items:center; justify-content:center; gap:9px;
+    height:52px; border-radius:26px; border:0; cursor:pointer;
+    background:var(--ink); color:var(--cream);
+    font-family:var(--sans); font-size:14px; font-weight:700;
+  }
+  .share:active{transform:scale(.985)}
+
+  @media (prefers-reduced-motion: reduce){
+    .days i, .tagline span, .trait .track i, .portrait svg{animation:none !important; transform:none !important; opacity:1 !important}
+  }
+</style>
+</head>
+<body>
+
+<div class="story" id="story">
+
+  <div class="topbar">
+    <span class="logo">
+      <svg width="20" height="13" viewBox="0 0 20 13" fill="currentColor" aria-hidden="true">
+        <rect x="0" y="6" width="2.6" height="7" rx="1.3"/>
+        <rect x="4.6" y="2.5" width="2.6" height="10.5" rx="1.3"/>
+        <rect x="9.2" y="7.5" width="2.6" height="5.5" rx="1.3"/>
+        <rect x="13.8" y="0" width="2.6" height="13" rx="1.3"/>
+      </svg>
+      tempo
+    </span>
+    <span class="tag">2026 年度报告</span>
+  </div>
+  <div class="progress"><i class="on"><b></b></i><i><b></b></i><i><b></b></i></div>
+
+  <!-- ================= 01 ================= -->
+  <section class="page p1 is-active" data-page="1">
+    <p class="kicker">这一年，耳机没怎么歇过</p>
+    <h1 class="bignum"><span id="nA">0,</span><span id="nB">000</span></h1>
+    <span class="unit">分钟</span>
+
+    <p class="sub">折合 <b>21</b> 天 <b>16</b> 小时</p>
+
+    <svg class="hp" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <path d="M10 40V32a22 22 0 0 1 44 0v8" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+      <rect x="3" y="34" width="15" height="21" rx="7.5" fill="currentColor"/>
+      <rect x="46" y="34" width="15" height="21" rx="7.5" fill="currentColor"/>
+    </svg>
+
+    <div class="days" id="days"></div>
+    <p class="cap">一年 365 天<br>其中 33 天，你确实在听</p>
+    <p class="next">轻点继续 →</p>
+  </section>
+
+  <!-- ================= 02 ================= -->
+  <section class="page p2" data-page="2">
+    <p class="kicker">播放键按得最多的</p>
+    <span class="roman">WU GANG</span>
+    <h1 class="name"><span>雾</span><span>港</span></h1>
+
+    <div class="portrait" aria-hidden="true">
+      <svg viewBox="0 0 270 270">
+        <circle cx="135" cy="135" r="135" fill="#E4411B"/>
+        <g fill="none" stroke="#F5EDDF" stroke-width="1.4" opacity=".18">
+          <circle cx="135" cy="135" r="116"/><circle cx="135" cy="135" r="100"/><circle cx="135" cy="135" r="84"/>
+        </g>
+<g transform="rotate(-5 135 152)">
+          <path d="M60 122c0-46 34-84 75-84s75 38 75 84v30c0 14-10 22-24 22H84c-14 0-24-8-24-22z" fill="#16120F"/>
+          <path d="M34 270c0-46 42-80 101-80s101 34 101 80z" fill="#F5EDDF"/>
+          <rect x="118" y="142" width="36" height="52" fill="#F5EDDF"/>
+          <path d="M104 184q31 17 62 0v20q-31 15-62 0z" fill="#16120F"/>
+          <path d="M97 104c0-22 17-38 38-38s38 16 38 38c0 15-6 27-13 35-7 8-15 12-25 12s-18-4-25-12c-7-8-13-20-13-35z" fill="#F5EDDF"/>
+          <path d="M98 92V84c0-12 16-21 37-21s37 9 37 21v8c-9 6-22 9-37 9s-28-3-37-9z" fill="#16120F"/>
+          <g fill="#16120F">
+            <ellipse cx="119" cy="108" rx="4.4" ry="6"/>
+            <ellipse cx="151" cy="108" rx="4.4" ry="6"/>
+          </g>
+          <g fill="#F5EDDF">
+            <circle cx="120.6" cy="106" r="1.7"/>
+            <circle cx="152.6" cy="106" r="1.7"/>
+          </g>
+          <g stroke="#16120F" fill="none" stroke-linecap="round">
+            <path d="M112 96q7-4 14 0" stroke-width="2.4"/>
+            <path d="M144 96q7-4 14 0" stroke-width="2.4"/>
+            <path d="M135 113v6" stroke-width="2"/>
+          </g>
+          <path d="M127 128q8 7 16 0q-8 9-16 0z" fill="#F5325F"/>
+          <circle cx="93" cy="146" r="9.5" fill="none" stroke="#F5EDDF" stroke-width="8"/>
+          <circle cx="93" cy="146" r="9.5" fill="none" stroke="#F5325F" stroke-width="4.2"/>
+          <circle cx="177" cy="146" r="9.5" fill="none" stroke="#F5EDDF" stroke-width="8"/>
+          <circle cx="177" cy="146" r="9.5" fill="none" stroke="#F5325F" stroke-width="4.2"/>
+        </g>
+      </svg>
+    </div>
+
+    <p class="stat-love">你回到他们的歌里</p>
+    <p class="plays"><span id="nPlays">0</span><em>次</em></p>
+    <p class="rank">收听排名</p>
+    <p class="pct" id="nPct">0.0%</p>
+    <p class="next">轻点继续 →</p>
+  </section>
+
+  <!-- ================= 03 ================= -->
+  <section class="page p3" data-page="3">
+    <p class="kicker">所以我们把你归为</p>
+    <h1 class="tagline" id="tagline"></h1>
+
+    <p class="desc">新歌榜你很少点开。你更愿意把一首老歌倒回去，听第二遍、第五遍，直到某一句和声忽然对上你那天的心情。</p>
+
+    <svg class="vinyl" viewBox="0 0 96 96" aria-hidden="true">
+      <circle cx="40" cy="40" r="29" fill="#16120F"/>
+      <circle cx="40" cy="40" r="9" fill="#F5EDDF"/>
+      <circle cx="40" cy="40" r="18" fill="none" stroke="#F5EDDF" stroke-width="1" opacity=".34"/>
+      <circle cx="40" cy="40" r="25" fill="none" stroke="#F5EDDF" stroke-width="1" opacity=".2"/>
+      <circle cx="66" cy="66" r="14" fill="#F5EDDF" fill-opacity=".16" stroke="#F5EDDF" stroke-width="5"/>
+      <path d="M76 76 L90 90" stroke="#F5EDDF" stroke-width="6.5" stroke-linecap="round"/>
+    </svg>
+
+    <p class="datanote"><b>58%</b>的歌，发行于 2000 年之前</p>
+
+    <div class="traits">
+      <div class="trait" style="--i:0"><b>念旧</b><span class="track"><i style="width:86%"></i></span><em>81</em></div>
+      <div class="trait" style="--i:1"><b>尝鲜</b><span class="track"><i style="width:52%"></i></span><em>47</em></div>
+      <div class="trait" style="--i:2"><b>循环</b><span class="track"><i style="width:94%"></i></span><em>92</em></div>
+    </div>
+
+    <button class="share">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4"/><path d="M8 8l4-4 4 4"/><path d="M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg>
+      分享这份报告
+    </button>
+  </section>
+
+  <svg class="grain" aria-hidden="true"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
+</div>
+
+<script>
+/* ---------- 365 天点阵，33 天点亮 ---------- */
+const daysEl = document.getElementById('days');
+let html = '';
+for(let i=0;i<365;i++){
+  html += `<i class="${((i * 89 + 17) % 365) < 33 ? 'f' : ''}" style="--i:${i}"></i>`;
+}
+daysEl.innerHTML = html;
+
+/* ---------- 标题逐字 ---------- */
+const tagEl = document.getElementById('tagline');
+const chars = ['夜','航','收','藏','家'];
+const rots  = [-4, 3, -3.5, 4, -2];
+const ys    = [0, -7, 0, 5, -3];
+const sp = (ch,i) => `<span style="--i:${i}; --r:${rots[i]}deg; --y:${ys[i]}px">${ch}</span>`;
+tagEl.innerHTML = chars.slice(0,2).map((ch,i) => sp(ch,i)).join('')
+  + '<br><u class="hl">' + chars.slice(2).map((ch,i) => sp(ch,i+2)).join('') + '</u>';
+
+/* ---------- 数字 ---------- */
+const ease = p => 1 - Math.pow(1-p, 3);
+function countTwo(elA, elB, target, dur){
+  const t0 = performance.now();
+  (function step(t){
+    const p = Math.min(1, (t-t0)/dur);
+    const v = Math.round(target * ease(p));
+    const k = Math.floor(v/1000), r = v % 1000;
+    elA.textContent = k ? k + ',' : '';
+    elB.textContent = k ? String(r).padStart(3,'0') : String(r);
+    if(p < 1) requestAnimationFrame(step);
+  })(performance.now());
+}
+function countOne(el, target, dur, fmt){
+  const t0 = performance.now();
+  (function step(t){
+    const p = Math.min(1, (t-t0)/dur);
+    el.textContent = fmt(target * ease(p));
+    if(p < 1) requestAnimationFrame(step);
+  })(performance.now());
+}
+
+/* ---------- 切页 ---------- */
+let cur = 1;
+const pages = [...document.querySelectorAll('.page')];
+const pips = [...document.querySelectorAll('.progress i')];
+const story = document.getElementById('story');
+
+function go(n){
+  if(n < 1 || n > 3) return;
+  cur = n;
+  pages.forEach(p => p.classList.toggle('is-active', Number(p.dataset.page) === n));
+  pips.forEach((p,i) => {
+    p.classList.toggle('done', i < n-1);
+    p.classList.toggle('on', i === n-1);
+  });
+  const cs = getComputedStyle(pages[n-1]);
+  story.style.background = cs.backgroundColor;
+  story.style.color = cs.color;
+  run(n);
+}
+
+function run(n){
+  if(n === 1) countTwo(document.getElementById('nA'), document.getElementById('nB'), 31208, 1150);
+  if(n === 2){
+    countOne(document.getElementById('nPlays'), 946, 900, v => Math.round(v).toLocaleString('en-US'));
+    countOne(document.getElementById('nPct'), 1.4, 900, v => v.toFixed(1) + '%');
+  }
+}
+
+const q = new URLSearchParams(location.search);
+go(Math.min(3, Math.max(1, Number(q.get('page')) || 1)));
+
+story.addEventListener('click', e => {
+  if(e.target.closest('.share')) return;
+  if(cur < 3) go(cur + 1);
+});
+</script>
+</body>
+</html>

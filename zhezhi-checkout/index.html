@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>折纸 ORIGAMI · 结账</title>
+
+<style>
+  :root{
+    --bg:#F1F3EF;
+    --card:#FFFFFF;
+    --panel:#D8F1E4;
+    --terra:#EB5F86;
+    --terra-d:#C93F68;
+    --ink:#17352D;
+    --ink2:#3E5F55;
+    --muted:#5C7A6F;
+    --muted-p:#4E6E62;   /* 薄荷底上的同义色，白底 --muted 在薄荷上只有 3.95:1 */
+    --line:#DCE7DF;
+    --line2:#EDF3EF;
+    /* 一套纸色：所有"纸"都用它 */
+    --paper:#FBF6EC;
+    --paper-2:#EFE6D6;
+    --paper-line:#DCCDB6;
+    --well:#7C223E;      /* 箱内腔 */
+    --pink-hi:#FFA3BE;   /* 箱沿高光 */
+    --pink-lo:#FFD6E2;   /* 细线 */
+    /* 一条线：左栏所有分隔线共用 */
+    --rule:rgba(23,53,45,.13);
+    /* 一个圆角：所有控件共用 */
+    --r:10px;
+    --sans:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;
+    --serif:"Sitka Display","Sitka Banner",Georgia,serif;
+    --num:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box; -webkit-font-smoothing:antialiased}
+  html,body{height:100%}
+  body{
+    margin:0; background:var(--bg); font-family:var(--sans); color:var(--ink);
+    display:grid; place-items:center;
+  }
+
+  .page{width:1080px; height:720px; display:grid; place-items:center}
+
+  .card{
+    width:990px; height:635px; border-radius:16px; overflow:hidden;
+    display:grid; grid-template-columns:380px 610px;
+    box-shadow:0 24px 60px rgba(26,36,32,.14), 0 2px 8px rgba(26,36,32,.05);
+  }
+
+  /* ---------------- 左：打包栏（薄荷） ---------------- */
+  .panel{
+    background:var(--panel); color:var(--ink); padding:24px 26px 0;
+    display:flex; flex-direction:column; min-height:0; position:relative;
+  }
+  .panel::after{
+    content:''; position:absolute; inset:0; pointer-events:none;
+    background:radial-gradient(80% 55% at 50% 32%, rgba(255,255,255,.34), transparent 72%);
+  }
+
+  .p-head{display:flex; align-items:baseline; position:relative; z-index:1}
+  .p-head h2{margin:0; font-family:var(--serif); font-size:19px; font-weight:600; letter-spacing:.01em}
+    .p-head span{margin-left:auto; font-size:10.5px; color:var(--muted-p); letter-spacing:.04em}
+
+  .art{flex:1; min-height:200px; margin:6px -8px 0; position:relative; z-index:1}
+  .art svg{display:block; width:100%; height:100%}
+
+  .list{list-style:none; margin:0; padding:0; position:relative; z-index:1}
+  .li{
+    display:grid; grid-template-columns:34px 1fr auto auto; gap:9px; align-items:center;
+    padding:9px 0; border-top:1px solid var(--rule);
+  }
+  /* 缩略图与右栏输入框同一套：纯白 + 1px 描边 + 10px 圆角 */
+  .li .tb{
+    width:34px; height:34px; border-radius:var(--r); background:#fff;
+    border:1px solid var(--rule); display:grid; place-items:center;
+  }
+  /* 商品图标与右栏同一套描边语言：1.7px 线 + 一处主色 */
+  .tb svg{stroke:var(--ink2); fill:none; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round}
+  .tb svg .dim{opacity:.42}
+  .tb svg .acc{stroke:var(--terra)}
+  .tb svg .thin{stroke-width:1.3; opacity:.5}
+
+  .li h3{margin:0; font-size:13px; font-weight:700; letter-spacing:.01em; color:var(--ink)}
+  .li p{margin:2px 0 0; font-size:10.5px; color:var(--muted-p)}
+  .li .q{font-family:var(--num); font-variant-numeric:tabular-nums; font-size:10.5px; color:var(--muted-p); text-align:right}
+  .li .pr{
+    font-family:var(--num); font-variant-numeric:tabular-nums; font-size:13px; font-weight:700;
+    color:var(--ink); text-align:right;
+  }
+
+  .p-sum{padding:10px 0 4px; position:relative; z-index:1; border-top:1px solid var(--rule)}
+  .p-sum .r{display:flex; font-size:12px; color:var(--muted-p); padding:4px 0}
+  .p-sum .r span:last-child{margin-left:auto; font-family:var(--num); font-variant-numeric:tabular-nums; color:var(--ink)}
+  .p-sum .r.off span:last-child{color:var(--terra-d)}
+  .p-sum .hr{height:1px; background:var(--rule); margin:10px 0}
+  .p-sum .tot{display:flex; align-items:baseline; padding-top:2px}
+  .p-sum .tot .l{font-size:12px; color:var(--muted-p); letter-spacing:.08em}
+  .p-sum .tot .v{
+    margin-left:auto; font-family:var(--num); font-variant-numeric:tabular-nums;
+    font-size:26px; font-weight:700; color:var(--ink); letter-spacing:-.01em;
+  }
+  .p-sum .tot .v i{font-style:normal; font-size:15px; font-weight:700; margin-right:2px; color:var(--ink2)}
+  .p-note{margin:0; font-size:10.5px; color:var(--muted-p); padding:11px 0 18px; position:relative; z-index:1; letter-spacing:.02em}
+
+  /* ---------------- 右：表单 ---------------- */
+  .form{padding:30px 40px 0; display:flex; flex-direction:column; min-height:0; background:var(--card)}
+
+  .f-head{display:flex; align-items:center; gap:9px; padding-bottom:22px; border-bottom:1px solid var(--line2)}
+  .brand{display:inline-flex; align-items:center; gap:9px}
+  .brand svg{display:block}
+  .brand b{font-family:var(--sans); font-size:19px; font-weight:700; letter-spacing:.06em; line-height:1}
+  .brand em{font-family:var(--sans); font-style:normal; font-size:9px; letter-spacing:.2em; color:var(--muted); margin-left:7px; white-space:nowrap}
+  .f-head .sp{flex:1}
+  .f-head a{font-size:12px; color:var(--ink2); text-decoration:none; display:inline-flex; align-items:center; gap:5px; border-bottom:1px solid var(--line); padding-bottom:1px}
+
+  /* 竖线步骤 */
+  .steps{flex:1; min-height:0; padding-top:20px; position:relative}
+  .step{display:grid; grid-template-columns:26px 1fr; gap:16px; padding-bottom:16px; position:relative}
+  .step .rail{position:relative; display:flex; justify-content:center}
+  .step .rail::before{
+    content:''; position:absolute; top:22px; bottom:-20px; width:1px; background:var(--line);
+  }
+  .step:last-child .rail::before{display:none}
+  .step .n{
+    width:22px; height:22px; border-radius:50%; border:1.4px solid var(--line);
+    display:grid; place-items:center; font-family:var(--num); font-size:10.5px; font-weight:700;
+    color:var(--muted); background:var(--card); z-index:1;
+  }
+  .step.done .n{background:var(--terra); border-color:var(--terra); color:#fff}
+  .step .body{padding-top:1px; min-width:0}
+  .step h2{margin:0 0 12px; font-size:15px; font-weight:700; letter-spacing:.01em}
+
+  .row2{display:grid; grid-template-columns:1fr 1fr; gap:22px}
+  .row3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px}
+  .fld{margin-bottom:13px}
+  .fld > label{display:block; font-size:10.5px; color:var(--muted); letter-spacing:.1em; margin-bottom:5px}
+  .inp{
+    height:44px; border:1px solid var(--line); border-radius:var(--r); background:#fff;
+    display:flex; align-items:center; font-size:14px; color:var(--ink); padding:0 14px;
+  }
+  .inp.filled{border-color:#C6DACE}
+  .inp .ck{margin-left:auto; width:18px; height:18px; border-radius:50%; background:var(--terra); display:grid; place-items:center; flex:none}
+  .inp.sel::after{
+    content:''; margin-left:auto; width:8px; height:8px; border-right:1.5px solid var(--muted);
+    border-bottom:1.5px solid var(--muted); transform:rotate(45deg) translateY(-2px);
+  }
+  .inp.muted{color:#79857E}
+
+  .h-row{display:flex; align-items:center; margin-bottom:12px}
+  .h-row h2{margin:0}
+  .tog{display:inline-flex; align-items:center; gap:7px; font-size:11.5px; color:var(--ink2); margin-left:auto}
+  .tog .sw{width:32px; height:18px; border-radius:9px; background:var(--terra); position:relative; flex:none}
+  .tog .sw::after{content:''; position:absolute; right:2px; top:2px; width:14px; height:14px; border-radius:50%; background:#fff}
+
+  .pays{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:16px}
+  .pay{
+    height:44px; border-radius:var(--r); border:1px solid var(--line); background:#fff;
+    display:flex; align-items:center; justify-content:center; gap:6px;
+    font-size:12.5px; color:var(--ink2);
+  }
+  .pay.on{border-color:var(--terra); border-width:1.5px; background:#FDEEF4; color:var(--terra-d); font-weight:700}
+
+  .cta{
+    margin-top:auto; height:50px; border-radius:var(--r); border:0;
+    background:var(--terra); color:#FFF8F2; font-family:var(--sans); font-size:15px; font-weight:700;
+    display:flex; align-items:center; justify-content:space-between; padding:0 20px;
+    letter-spacing:.04em;
+  }
+  .cta .amt{font-family:var(--num); font-size:16px; letter-spacing:0}
+  .note{text-align:center; font-size:10.5px; color:var(--muted); margin:12px 0 20px; letter-spacing:.02em}
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="card">
+
+    <!-- ================= 左：打包栏 ================= -->
+    <aside class="panel">
+      <div class="p-head"><h2>你的包裹</h2><span>3 件 · 约 0.9 kg</span></div>
+
+      <div class="art">
+        <svg viewBox="46 44 280 182">
+          <ellipse cx="178" cy="182" rx="126" ry="38" fill="#A9D4BF" opacity=".8"/>
+
+<!-- 立起的盖板 -->
+          <g transform="rotate(7 258 92)">
+            <path d="M210 74 L300 50 L322 118 L232 142 Z" fill="var(--terra-d)"/>
+            <path d="M219 81 L292 62 L310 110 L237 129 Z" fill="var(--paper)"/>
+            <g fill="var(--ink)" font-family="Microsoft YaHei, sans-serif" font-size="9" font-weight="700">
+              <text x="262" y="80" transform="rotate(-15 262 80)" text-anchor="middle">慢慢写，</text>
+              <text x="268" y="98" transform="rotate(-15 268 98)" text-anchor="middle">纸会记得。</text>
+            </g>
+            <circle cx="307" cy="116" r="4.6" fill="var(--terra)"/>
+          </g>
+
+          <!-- 开口 -->
+          <path d="M78 124 L170 90 L262 124 L170 158 Z" fill="var(--terra)"/>
+          <path d="M93 124 L170 97 L247 124 L170 151 Z" fill="var(--well)"/>
+          <path d="M78 124 L170 90 L262 124" fill="none" stroke="var(--pink-hi)" stroke-width="1.8"/>
+
+          <!-- 箱内物件：两本线装笔记本 / 三张活版卡片 / 一枚棉纸信封 -->
+          <!-- 笔记本：书脊 + 线装孔 + 书口页芯 -->
+          <g transform="rotate(-10 116 120)">
+            <rect x="100" y="94" width="32" height="56" rx="2.5" fill="var(--paper-2)"/>
+            <rect x="100" y="94" width="7.5" height="56" rx="2.5" fill="var(--terra-d)"/>
+          </g>
+          <g transform="rotate(-3 130 119)">
+            <rect x="114" y="88" width="32" height="62" rx="2.5" fill="var(--paper)"/>
+            <rect x="114" y="88" width="7.5" height="62" rx="2.5" fill="var(--terra)"/>
+            <g fill="var(--paper)">
+              <circle cx="117.8" cy="100" r="1"/>
+              <circle cx="117.8" cy="109" r="1"/>
+              <circle cx="117.8" cy="118" r="1"/>
+              <circle cx="117.8" cy="127" r="1"/>
+            </g>
+            <path d="M126 100h14M126 109h14M126 118h9" stroke="var(--paper-line)" stroke-width="1.2" stroke-linecap="round"/>
+            <rect x="141" y="88" width="5" height="62" fill="var(--paper-2)"/>
+            <path d="M141 88v62" stroke="var(--paper-line)" stroke-width="1"/>
+          </g>
+
+          <!-- 活版卡片：三张扇形摊开，三种版式 -->
+          <g transform="rotate(-19 168 154)">
+            <rect x="152" y="112" width="28" height="42" rx="2" fill="var(--paper-2)"/>
+          </g>
+          <g transform="rotate(-4 168 154)">
+            <rect x="153" y="108" width="28" height="42" rx="2" fill="var(--paper)"/>
+            <path d="M159 119h16M159 125h10" stroke="var(--paper-line)" stroke-width="1.2" stroke-linecap="round"/>
+          </g>
+          <g transform="rotate(11 168 154)">
+            <rect x="154" y="104" width="28" height="42" rx="2" fill="var(--paper)"/>
+            <circle cx="168" cy="115" r="3.2" fill="none" stroke="var(--terra)" stroke-width="1.4"/>
+            <path d="M159 126h18M159 132h9" stroke="var(--terra)" stroke-width="1.3" stroke-linecap="round"/>
+          </g>
+
+          <!-- 棉纸信封：V 形封口 -->
+          <g transform="rotate(9 210 148)">
+            <rect x="194" y="114" width="32" height="40" rx="2.5" fill="var(--paper-2)"/>
+          </g>
+          <g transform="rotate(-5 212 150)">
+            <rect x="196" y="116" width="32" height="40" rx="2.5" fill="var(--paper)"/>
+            <path d="M196.5 119 L212 132 L227.5 119" fill="none" stroke="var(--terra)" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/>
+          </g>
+
+          <!-- 箱体正面 -->
+          <path d="M78 124 L170 158 L170 212 L78 178 Z" fill="var(--terra)"/>
+          <path d="M170 158 L262 124 L262 178 L170 212 Z" fill="var(--terra-d)"/>
+
+          <!-- 箱面标签 -->
+          <g transform="translate(92 152) rotate(20)">
+            <rect x="0" y="0" width="42" height="14" rx="2.5" fill="var(--paper)"/>
+            <text x="21" y="10.4" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="8.6" font-weight="700" letter-spacing=".08em" fill="var(--ink)">折纸</text>
+          </g>
+          <g transform="translate(194 166) rotate(-20)">
+            <rect x="0" y="0" width="46" height="16" rx="2.5" fill="var(--paper)"/>
+            <text x="23" y="8" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="5.8" font-weight="700" fill="var(--terra)">勿折</text>
+            <text x="23" y="13.6" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="4.6" fill="var(--muted)">NO BEND</text>
+          </g>
+          <circle cx="240" cy="186" r="4.4" fill="var(--terra)"/>
+        </svg>
+      </div>
+
+      <ul class="list">
+        <li class="li">
+          <span class="tb">
+            <svg width="22" height="22" viewBox="0 0 24 24">
+              <rect class="dim" x="8.2" y="3.6" width="11" height="15.8" rx="1.7"/>
+              <rect x="4.4" y="4.6" width="11.2" height="15.8" rx="1.7"/>
+              <path class="acc" d="M7.5 5.1v14.8"/>
+              <path class="thin" d="M10.6 8.7h2.6M10.6 11.3h2.6"/>
+            </svg>
+          </span>
+          <div><h3>线装笔记本</h3><p>A5 棉纸 · 两本装</p></div>
+          <span class="q">×2</span><b class="pr">¥196</b>
+        </li>
+        <li class="li">
+          <span class="tb">
+            <svg width="22" height="22" viewBox="0 0 24 24">
+              <rect class="dim" x="3.6" y="6.6" width="16.8" height="10.8" rx="1.4" transform="rotate(-6 12 12)"/>
+              <rect x="4" y="7.4" width="16.8" height="10.8" rx="1.4"/>
+              <path class="acc" d="M7.2 10.6h7.2M7.2 13.2h4.4"/>
+            </svg>
+          </span>
+          <div><h3>活版印刷卡片</h3><p>12 张 · 三种版式</p></div>
+          <span class="q">×1</span><b class="pr">¥128</b>
+        </li>
+        <li class="li">
+          <span class="tb">
+            <svg width="22" height="22" viewBox="0 0 24 24">
+              <rect x="3" y="6.6" width="18" height="11.4" rx="1.9"/>
+              <path class="acc" d="M3.6 7.6 12 13.6 20.4 7.6"/>
+            </svg>
+          </span>
+          <div><h3>棉纸信封</h3><p>五枚 · 同色封口</p></div>
+          <span class="q">×1</span><b class="pr">¥64</b>
+        </li>
+      </ul>
+
+      <div class="p-sum">
+        <div class="r"><span>小计</span><span>¥388.00</span></div>
+        <div class="r off"><span>新客礼</span><span>-¥20.00</span></div>
+        <div class="r"><span>运费</span><span>包邮</span></div>
+        <div class="hr"></div>
+        <div class="tot"><span class="l">合计</span><span class="v"><i>¥</i>368.00</span></div>
+      </div>
+      <p class="p-note">周三上午装盒，下午由邮政小包寄出。</p>
+    </aside>
+
+    <!-- ================= 右：表单 ================= -->
+    <section class="form">
+
+      <div class="f-head">
+        <span class="brand">
+          <svg width="26" height="26" viewBox="0 0 24 24">
+            <path d="M2 10.2 8.4 4.6 8.4 13.8 2 19.4Z" fill="var(--terra)"/>
+            <path d="M8.4 4.6 14.8 10.2 14.8 19.4 8.4 13.8Z" fill="var(--terra-d)"/>
+            <path d="M14.8 10.2 21.2 4.6 21.2 13.8 14.8 19.4Z" fill="var(--terra)"/>
+          </svg>
+          <b>折纸</b><em>ORIGAMI</em>
+        </span>
+        <span class="sp"></span>
+        <a href="#">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+          返回购物袋
+        </a>
+      </div>
+
+      <div class="steps">
+
+        <div class="step done">
+          <div class="rail"><span class="n">01</span></div>
+          <div class="body">
+            <div class="h-row"><h2>收货地址</h2><span class="tog"><span class="sw"></span>设为默认</span></div>
+
+            <div class="row2">
+              <div class="fld"><label>收件人</label>
+                <div class="inp filled">沈之遥
+                  <span class="ck"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>
+                </div>
+              </div>
+              <div class="fld"><label>手机号</label>
+                <div class="inp filled">137 8891 2046
+                  <span class="ck"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row3">
+              <div class="fld"><label>省</label><div class="inp filled sel">江苏省</div></div>
+              <div class="fld"><label>市</label><div class="inp filled sel">南京市</div></div>
+              <div class="fld"><label>区</label><div class="inp filled sel">鼓楼区</div></div>
+            </div>
+
+            <div class="fld" style="margin-bottom:0"><label>详细地址</label>
+              <div class="inp filled">广州路 22 号 4 单元 701
+                <span class="ck"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="rail"><span class="n">02</span></div>
+          <div class="body">
+            <h2>支付方式</h2>
+
+            <div class="pays">
+              <div class="pay on">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="2.5" y="6" width="19" height="13" rx="2.6"/><path d="M2.5 10.5h19"/></svg>
+                银行卡
+              </div>
+              <div class="pay">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7.5h9a2.5 2.5 0 0 1 0 5H8.5a2.5 2.5 0 0 0 0 5h8"/><path d="M12 4v3M12 18v3"/></svg>
+                支付宝
+              </div>
+              <div class="pay">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h12a4 4 0 0 1 0 8H8a4 4 0 0 1 0-8z"/><path d="M6 5v3M10 5v3"/></svg>
+                微信支付
+              </div>
+            </div>
+
+            <div class="row2" style="grid-template-columns:1fr 130px 110px">
+              <div class="fld" style="margin:0"><label>卡号</label><div class="inp filled">6250 9470 1283 665</div></div>
+              <div class="fld" style="margin:0"><label>有效期</label><div class="inp muted">月 / 年</div></div>
+              <div class="fld" style="margin:0"><label>安全码</label><div class="inp muted">3 位</div></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <button class="cta">确认支付 <span class="amt">¥368.00</span></button>
+      <p class="note">支付通过银行加密通道处理，我们不保存任何卡号。</p>
+    </section>
+
+  </div>
+</div>
+
+</body>
+</html>
